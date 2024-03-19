@@ -1,26 +1,24 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { EcoservCarousel } from './components/carousel/EcoservCarousel'
+import { EcoservNavbar } from './components/header/EcoservNavbar'
+import logoSrc from './assets/coserv-high-resolution-logo-transparent.png';
+import { EcoservImageList } from './business/services/EcoservImageList';
+import { EcoservFooter } from './components/footer/EcoservFooter';
+import { TestGrid } from './business/services/TestGrid';
+import { itemData } from './data/services_data/ServicesData';
 
-function App() {
+
+export const App = () => {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+    <>
+      <EcoservNavbar logoSrc={logoSrc} />
+      <EcoservCarousel />
+      {/* <EcoserviceSection /> */}
+      {/* <EcoservImageList /> */}
 
-export default App;
+      <TestGrid images={itemData} />
+      <EcoservFooter />
+    </>
+  )
+}
