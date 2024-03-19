@@ -1,0 +1,40 @@
+/* EcoservNavbar.css */
+
+.ecoserv-navbar {
+  background-color: transparent; /* Set initial background color of the Navbar */
+  transition: background-color 0.3s ease; /* Add transition effect for background color */
+  position: fixed; /* Make the Navbar fixed */
+  width: 100%; /* Set the width to 100% */
+  top: 0; /* Position at the top of the viewport */
+  z-index: 1000; /* Set a high z-index to ensure it's above other content */
+}
+
+.ecoserv-navbar.sticky {
+  background-color: #1e8449; /* Set background color when Navbar is sticky */
+}
+
+.navbar.ecoserv-navbar .navbar-brand img {
+  max-width: 100px; /* Limit the width of the logo */
+}
+
+.navbar.ecoserv-navbar .nav-link {
+  color: #ffffff !important; /* Set text color to white for Nav links */
+  margin-right: 15px; /* Add spacing between Nav links */
+}
+
+.navbar.ecoserv-navbar .nav-link:hover {
+  color: #ffffff; /* Change text color on hover */
+  text-decoration: none; /* Remove underline on hover */
+}
+
+@media (max-width: 768px) {
+  .navbar.ecoserv-navbar .navbar-nav .nav-link {
+    color: #ffffff !important; /* Text color for collapsed Nav links */
+    margin-right: 0; /* Remove margin between collapsed Nav links */
+    margin-bottom: 10px; /* Add spacing below collapsed Nav links */
+  }
+
+  .navbar.ecoserv-navbar .navbar-nav .nav-link:hover {
+    color: #ffffff; /* Change text color on hover */
+  }
+}

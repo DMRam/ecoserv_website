@@ -1,0 +1,56 @@
+.custom-carousel {
+  margin-bottom: 50px; /* Add some spacing at the bottom of the carousel */
+}
+
+.carousel-image {
+  height: 400px; /* Set a fixed height for the carousel images */
+  object-fit: cover;
+  position: relative; /* Set position for the overlay */
+}
+
+.carousel-overlay {
+  position: absolute; /* Position the overlay */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+}
+
+.carousel-caption {
+  position: absolute; /* Position the caption within the overlay */
+  bottom: 20px;
+  left: 20px;
+  color: #ffffff; /* Set text color to white */
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* Semi-transparent black background for captions */
+  padding: 20px; /* Add padding to the captions */
+}
+
+.carousel-caption h3 {
+  font-size: 24px; /* Increase the font size of the caption titles */
+  margin-bottom: 10px; /* Add some spacing below the titles */
+}
+
+.carousel-caption p {
+  font-size: 16px; /* Set font size for the caption text */
+  margin-bottom: 0; /* Remove default margin for the text */
+}
+
+@media (max-width: 768px) {
+  .carousel-image {
+    height: 300px; /* Reduce height for smaller screens */
+  }
+
+  .carousel-caption h3 {
+    font-size: 20px; /* Decrease font size for smaller screens */
+  }
+
+  .carousel-caption p {
+    font-size: 14px; /* Decrease font size for smaller screens */
+  }
+}
