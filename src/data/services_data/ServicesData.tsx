@@ -27,4 +27,9 @@ export const itemData = [
         title: 'Courtier Immobilier',
         author: '',
     },
+    {
+        img: 'https://media.licdn.com/dms/image/C4D12AQF6NOQqWkczbA/article-cover_image-shrink_720_1280/0/1532511399038?e=2147483647&v=beta&t=2egA_WLH9MBisudaPvjLlSALznKZTa68M3e1K39wkNk',
+        title: "L'homme à tout faire",
+        author: '',
+    },
    ]

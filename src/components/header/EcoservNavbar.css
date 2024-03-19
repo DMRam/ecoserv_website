@@ -1,5 +1,17 @@
 /* EcoservNavbar.css */
 
+/* Change hamburger icon color */
+.navbar-toggler-icon {
+  color: #ffffff !important; /* Set light color for hamburger icon */
+}
+
+/* Optional: Hamburger icon background color */
+.navbar-toggler {
+  background-color: transparent !important; /* Set transparent background for the hamburger icon */
+}
+
+/* Your existing styles start here */
+
 .ecoserv-navbar {
   background-color: transparent; /* Set initial background color of the Navbar */
   transition: background-color 0.3s ease; /* Add transition effect for background color */
@@ -38,4 +50,3 @@
     color: #ffffff; /* Change text color on hover */
   }
 }
-

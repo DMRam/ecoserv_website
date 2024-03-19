@@ -27,7 +27,7 @@ export const EcoservNavbar: React.FC<Props> = ({ logoSrc }) => {
     }, []);
 
     return (
-        <Navbar expand="lg" className={isSticky ? 'ecoserv-navbar sticky' : 'ecoserv-navbar'} bg="dark">
+        <Navbar expand="lg" variant="dark" className={isSticky ? 'ecoserv-navbar sticky' : 'ecoserv-navbar'} bg="dark">
             <Container>
                 <Navbar.Brand href="#">
                     <img
@@ -37,7 +37,7 @@ export const EcoservNavbar: React.FC<Props> = ({ logoSrc }) => {
                         alt="Ècoserv"
                     />
                 </Navbar.Brand>
-                <Navbar.Toggle aria-controls="navbarNav" />
+                <Navbar.Toggle aria-controls="navbarNav" className="custom-toggler" />
                 <Navbar.Collapse id="navbarNav" className="justify-content-end">
                     <Nav>
                         <Nav.Link href="#" className="nav-link">

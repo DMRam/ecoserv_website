@@ -5,6 +5,7 @@ import logoSrc from './assets/coserv-high-resolution-logo-transparent.png';
 import { EcoservFooter } from './components/footer/EcoservFooter';
 import { TestGrid } from './business/services/TestGrid';
 import { itemData } from './data/services_data/ServicesData';
+import { TarifSection } from './business/tarif/EcoservTarif';
 
 
 export const App = () => {
@@ -14,6 +15,7 @@ export const App = () => {
       <EcoservNavbar logoSrc={logoSrc} />
       <EcoservCarousel />
       <TestGrid images={itemData} />
+      <TarifSection />
       <EcoservFooter />
     </>
   )

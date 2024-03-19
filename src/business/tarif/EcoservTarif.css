@@ -1,0 +1,29 @@
+.tarif-section {
+  padding: 80px 0;
+  background-color: #f8f9fa;
+}
+
+.section-title {
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 36px;
+  color: #333333;
+}
+
+.tarif-card {
+  border: none;
+  margin-bottom: 30px;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease;
+}
+
+.tarif-card:hover {
+  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2);
+}
+
+.price {
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e8449;
+  margin-top: 20px;
+}
