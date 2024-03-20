@@ -28,7 +28,7 @@ export const itemData = [
         author: '',
     },
     {
-        img: 'https://media.licdn.com/dms/image/C4D12AQF6NOQqWkczbA/article-cover_image-shrink_720_1280/0/1532511399038?e=2147483647&v=beta&t=2egA_WLH9MBisudaPvjLlSALznKZTa68M3e1K39wkNk',
+        img: 'https://www.mrhandyman.com/us/en-us/mr-handyman/_assets/expert-tips/images/Local-blogs-images/mrh-blog-top-15-reasons-to-have-a-handyman-service-on-you2.webp',
         title: "L'homme à tout faire",
         author: '',
     },

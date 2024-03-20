@@ -1,18 +1,17 @@
 /* EcoservNavbar.css */
 
+/* Import the super cool family font */
+@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
 /* Change hamburger icon color */
 .navbar-toggler-icon {
   color: #ffffff !important; /* Set light color for hamburger icon */
 }
 
-/* Optional: Hamburger icon background color */
-.navbar-toggler {
-  background-color: transparent !important; /* Set transparent background for the hamburger icon */
-}
-
 /* Your existing styles start here */
 
 .ecoserv-navbar {
+  font-family: "Roboto", sans-serif; /* Apply the super cool family font to the Navbar */
   background-color: transparent; /* Set initial background color of the Navbar */
   transition: background-color 0.3s ease; /* Add transition effect for background color */
   position: fixed; /* Make the Navbar fixed */
@@ -30,6 +29,7 @@
 }
 
 .navbar.ecoserv-navbar .nav-link {
+  font-family: "Roboto", sans-serif; /* Apply the super cool family font to Nav links */
   color: #ffffff !important; /* Set text color to white for Nav links */
   margin-right: 15px; /* Add spacing between Nav links */
 }
@@ -49,4 +49,14 @@
   .navbar.ecoserv-navbar .navbar-nav .nav-link:hover {
     color: #ffffff; /* Change text color on hover */
   }
+}
+
+.language-icons {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.language-icon {
+  margin-left: 10px; /* Adjust the margin as needed */
 }

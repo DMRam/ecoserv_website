@@ -3,7 +3,7 @@
 }
 
 .carousel-image {
-  height: 400px; /* Set a fixed height for the carousel images */
+  height: 600px; /* Set a fixed height for the carousel images */
   object-fit: cover;
   position: relative; /* Set position for the overlay */
 }

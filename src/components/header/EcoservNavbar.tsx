@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Navbar, Nav, Container } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
+import { FiGlobe } from 'react-icons/fi'; // Import icons for language selection
 import './EcoservNavbar.css'; // Import CSS file for Navbar styles
 
 interface Props {
@@ -44,11 +45,16 @@ export const EcoservNavbar: React.FC<Props> = ({ logoSrc }) => {
                             Services
                         </Nav.Link>
                         <Nav.Link href="#" className="nav-link">
-                            Tarif
+                            Estimation
                         </Nav.Link>
                         <Nav.Link href="#" className="nav-link">
                             Nous joindre
                         </Nav.Link>
+                        <NavDropdown title={<FiGlobe className="language-icon" />} id="basic-nav-dropdown">
+                            <NavDropdown.Item href="#fr">French</NavDropdown.Item>
+                            <NavDropdown.Item href="#en">English</NavDropdown.Item>
+                            <NavDropdown.Item href="#es">Spanish</NavDropdown.Item>
+                        </NavDropdown>
                     </Nav>
                 </Navbar.Collapse>
             </Container>

@@ -1,0 +1,41 @@
+.estimation-form-container {
+  max-width: 500px;
+  margin: auto;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+.cool-input {
+  border: 2px solid #3498db;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.cool-select {
+  border: 2px solid #e74c3c;
+  border-radius: 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.cool-checkbox .form-check-input {
+  background-color: #1abc9c;
+}
+
+.cool-button {
+  background-color: #2ecc71;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.cool-button:hover {
+  background-color: #27ae60;
+}
