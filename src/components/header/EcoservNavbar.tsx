@@ -50,8 +50,8 @@ export const EcoservNavbar: React.FC<Props> = ({ logoSrc }) => {
                         <Nav.Link href="#" className="nav-link">
                             Nous joindre
                         </Nav.Link>
-                        <NavDropdown title={<FiGlobe className="language-icon" />} id="basic-nav-dropdown">
-                            <NavDropdown.Item href="#fr">French</NavDropdown.Item>
+                        <NavDropdown  title={<FiGlobe className="language-icon" />} id="basic-nav-dropdown">
+                            <NavDropdown.Item style={{backgroundColor:'grey'}} href="#fr">French</NavDropdown.Item>
                             <NavDropdown.Item href="#en">English</NavDropdown.Item>
                             <NavDropdown.Item href="#es">Spanish</NavDropdown.Item>
                         </NavDropdown>
