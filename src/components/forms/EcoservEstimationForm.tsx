@@ -39,6 +39,7 @@ export const EcoservEstimationForm = () => {
 
     const handleCloseModal = () => {
         setShowModal(false);
+        
         resetForm();
     };
 

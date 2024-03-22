@@ -10,7 +10,7 @@ import { TextField, MenuItem } from '@mui/material';
 export const EcoservRendezVousDatePicker = () => {
     const [selectedHour, setSelectedHour] = useState('');
 
-    const handleHourChange = (event:any) => {
+    const handleHourChange = (event: any) => {
         setSelectedHour(event.target.value);
     };
 
@@ -22,8 +22,8 @@ export const EcoservRendezVousDatePicker = () => {
                     'MobileDatePicker',
                 ]}
             >
-                <DemoItem label="Choisis un jour">
-                    <MobileDatePicker defaultValue={dayjs('2022-04-17')} />
+                <DemoItem label="Choisis un jour pour votre rendez-vous">
+                    <MobileDatePicker disablePast={true} defaultValue={dayjs(Date.now())} />
                 </DemoItem>
             </DemoContainer>
 
