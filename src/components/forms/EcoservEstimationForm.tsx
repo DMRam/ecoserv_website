@@ -2,9 +2,27 @@ import React, { useState } from 'react';
 import { Container, Grid, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { EcoservSummaryEstimation } from '../../business/summary/EcoservSummaryEstimation';
 import { EcoservEstimationFormInterface } from '../../interfaces/EcoservEstimation';
+import { Checkbox, FormControlLabel } from '@mui/material';
+import { Title } from '@mui/icons-material';
 
 export const EcoservEstimationForm = () => {
     const [showModal, setShowModal] = useState(false);
+    const [additionalServices, setAdditionalServices] = useState<any>({
+        carpetCleaning: { selected: false, info: 'Service de nettoyage de tapis' },
+        windowCleaning: { selected: false, info: 'Service de nettoyage de fenêtres' },
+        deepCleaning: { selected: false, info: 'Service de nettoyage en profondeur' },
+        another: { selected: false, info: 'Service de nettoyage additionel' },
+
+    });
+
+    const handleServiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = event.target;
+        setAdditionalServices({
+            ...additionalServices,
+            [name]: { ...additionalServices[name], selected: checked },
+        });
+    };
+
     const [formData, setFormData] = useState<EcoservEstimationFormInterface>({
         name: '',
         email: '',
@@ -13,8 +31,9 @@ export const EcoservEstimationForm = () => {
         bathrooms: '',
         service: '',
         date: new Date().toISOString().split('T')[0],
+        additionalServices
     });
-    const [formErrors, setFormErrors] = useState<EcoservEstimationFormInterface>({
+    const [formErrors, setFormErrors] = useState<any>({
         name: '',
         email: '',
         area: '',
@@ -22,6 +41,7 @@ export const EcoservEstimationForm = () => {
         bathrooms: '',
         service: '',
         date: '',
+
     });
 
     const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
@@ -39,7 +59,7 @@ export const EcoservEstimationForm = () => {
 
     const handleCloseModal = () => {
         setShowModal(false);
-        
+
         resetForm();
     };
 
@@ -53,6 +73,7 @@ export const EcoservEstimationForm = () => {
             bathrooms: '',
             service: '',
             date: '',
+            additionalServices: {}
         };
 
         // Validate name
@@ -111,6 +132,20 @@ export const EcoservEstimationForm = () => {
             bathrooms: '',
             service: '',
             date: new Date().toISOString().split('T')[0],
+            additionalServices: {
+                carpetCleaning: { selected: false, info: 'Service de nettoyage de tapis' },
+                windowCleaning: { selected: false, info: 'Service de nettoyage de fenêtres' },
+                deepCleaning: { selected: false, info: 'Service de nettoyage en profondeur' },
+                another: { selected: false, info: 'Service de nettoyage additionel' },
+
+            }
+        });
+        setAdditionalServices({
+            carpetCleaning: { selected: false, info: 'Service de nettoyage de tapis' },
+            windowCleaning: { selected: false, info: 'Service de nettoyage de fenêtres' },
+            deepCleaning: { selected: false, info: 'Service de nettoyage en profondeur' },
+            another: { selected: false, info: 'Service de nettoyage additionel' },
+            // Add more services with corresponding information as needed
         });
         setFormErrors({
             name: '',
@@ -210,7 +245,8 @@ export const EcoservEstimationForm = () => {
                             type="number"
                             inputProps={{ min: 0 }}
                             placeholder="Nombre de sales de bain"
-                            value={formData.bathrooms}
+                            value={formData
+                                .bathrooms}
                             onChange={handleInputChange}
                             error={!!formErrors.bathrooms}
                             helperText={formErrors.bathrooms}
@@ -258,6 +294,19 @@ export const EcoservEstimationForm = () => {
                                 <MenuItem value="L'homme à tout faire">L'homme à tout faire</MenuItem>
                             </Select>
                         </FormControl>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Typography variant="h6">Services additionels</Typography>
+                        <Grid container spacing={1}>
+                            {Object.keys(additionalServices).map((serviceKey) => (
+                                <Grid item xs={12} sm={6} key={serviceKey}>
+                                    <FormControlLabel
+                                        control={<Checkbox checked={additionalServices[serviceKey].selected} onChange={handleServiceChange} name={serviceKey} />}
+                                        label={additionalServices[serviceKey].info}
+                                    />
+                                </Grid>
+                            ))}
+                        </Grid>
                     </Grid>
                     <Grid item xs={12}>
                         <Button onClick={handleShowModal} variant="contained" color="primary" fullWidth>

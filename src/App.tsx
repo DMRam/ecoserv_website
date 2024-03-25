@@ -1,25 +1,24 @@
-import React from 'react'
-import { EcoservCarousel } from './components/carousel/EcoservCarousel'
-import { EcoservNavbar } from './components/header/EcoservNavbar'
+import React from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { EcoservNavbar } from './components/header/EcoservNavbar';
 import logoSrc from './assets/coserv-high-resolution-logo-transparent.png';
 import { EcoservFooter } from './components/footer/EcoservFooter';
-import { TestGrid } from './business/services/TestGrid';
-import { itemData } from './data/services_data/ServicesData';
-import { TarifSection } from './business/tarif/EcoservTarif';
-import './App.css'
-import { EcoservEstimationForm } from './components/forms/EcoservEstimationForm';
-
+import { EcoserviceDetails } from './business/services/services_details/EcoserviceDetails';
+import { EcoservHome } from './business/landing/EcoservHome';
+import { Provider } from 'react-redux';
+import store from './store';
 
 export const App = () => {
-
   return (
-    <>
-      <EcoservNavbar logoSrc={logoSrc} />
-      <EcoservCarousel />
-      <TestGrid images={itemData} />
-      <TarifSection />
-      <EcoservEstimationForm />
-      <EcoservFooter />
-    </>
-  )
-}
+    <Provider store={store}>
+      <BrowserRouter>
+        <EcoservNavbar logoSrc={logoSrc} />
+        <Routes>
+          <Route path='/' element={<EcoservHome />} />
+          <Route path="/image-details/:id" element={<EcoserviceDetails />} />
+        </Routes>
+        <EcoservFooter />
+      </BrowserRouter>
+    </Provider>
+  );
+};

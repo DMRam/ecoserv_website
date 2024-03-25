@@ -1,8 +1,12 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
+import { useLanguage } from '../../hooks/useLanguage';
 import './EcoservCarousel.css'; // Import CSS file for carousel styles
 
 export const EcoservCarousel: React.FC = () => {
+    const { languageSelected } = useLanguage()
+
+    console.log(languageSelected + " SELECTED")
     return (
         <Carousel className="custom-carousel">
             <Carousel.Item>
@@ -12,9 +16,24 @@ export const EcoservCarousel: React.FC = () => {
                     alt="First slide"
                 />
                 <Carousel.Caption className="carousel-caption">
-                    <h3>First slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    {languageSelected === 'French' ? (
+                        <>
+                            <h3>Premier message</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </>
+                    ) : languageSelected === 'Spanish' ? (
+                        <>
+                            <h3>Etiqueta del primer slide</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </>
+                    ) : (
+                        <>
+                            <h3>First slide label</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </>
+                    )}
                 </Carousel.Caption>
+
             </Carousel.Item>
             <Carousel.Item>
                 <img
@@ -23,8 +42,22 @@ export const EcoservCarousel: React.FC = () => {
                     alt="Second slide"
                 />
                 <Carousel.Caption className="carousel-caption">
-                    <h3>Second slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    {languageSelected === 'French' ? (
+                        <>
+                            <h3>Deuxiemme message</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </>
+                    ) : languageSelected === 'Spanish' ? (
+                        <>
+                            <h3>Etiqueta del segundo slide</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </>
+                    ) : (
+                        <>
+                            <h3>Second slide label</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </>
+                    )}
                 </Carousel.Caption>
             </Carousel.Item>
             <Carousel.Item>
@@ -34,8 +67,22 @@ export const EcoservCarousel: React.FC = () => {
                     alt="Third slide"
                 />
                 <Carousel.Caption className="carousel-caption">
-                    <h3>Third slide label</h3>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                    {languageSelected === 'French' ? (
+                        <>
+                            <h3>Troisiemme message</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </>
+                    ) : languageSelected === 'Spanish' ? (
+                        <>
+                            <h3>Etiqueta del tercer slide</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </>
+                    ) : (
+                        <>
+                            <h3>Third slide label</h3>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                        </>
+                    )}
                 </Carousel.Caption>
             </Carousel.Item>
         </Carousel>

@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Modal, Typography, Button, TextField, Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 import { EcoservEstimationFormInterface } from '../../interfaces/EcoservEstimation';
 import { EcoservRendezVousDatePicker } from '../../components/date_picker/EcoservRendezVousDatePicker';
 import { EcoservConfirmEstimation } from './EcoservConfirmEstimation';
+import emailjs from '@emailjs/browser';
+import { email_credentials } from '../../key/EmailJsKey';
 
 interface Props {
     showModal: boolean;
@@ -11,14 +13,17 @@ interface Props {
 }
 
 export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDetails }: Props) => {
-    const [selectedDate, setSelectedDate] = useState<Date | null>(null);
-    const [displayCalendar, setDisplayCalendar] = useState(false);
-    const [estimationWasSubmited, setEstimationWasSubmited] = useState(false);
     const [step_one, setStep_one] = useState(true);
     const [step_two, setStep_two] = useState(false);
     const [step_three, setStep_three] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [formData, setFormData] = useState({
+        date: '', // Initialize with empty string
+        hourRange: '', // Initialize with empty string or appropriate default value
+    });
 
+    const [] = useState({
+
+    })
     const calculationResult = () => {
         // Calculate your result here based on formDetails or other data
         const result = "";
@@ -26,14 +31,14 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
     };
 
     const resetSteps = () => {
-        setStep_one(true)
-        setStep_two(false)
-        setStep_three(false)
-        onHandleCancel()
-    }
+        setStep_one(true);
+        setStep_two(false);
+        setStep_three(false);
+        onHandleCancel();
+    };
 
     useEffect(() => {
-        let timer: string | number | NodeJS.Timeout | undefined;
+        let timer: NodeJS.Timeout | undefined;
 
         if (step_three) {
             timer = setTimeout(() => {
@@ -44,21 +49,72 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
         return () => clearTimeout(timer); // Cleanup the timer on component unmount or re-render
     }, [step_three]); // Reset the timer whenever step_three changes
 
+    const handleDateChange = (date: { format: (arg0: string) => any; }) => {
+        setFormData({ ...formData, date: date.format('YYYY-MM-DD') });
+    };
 
+    const handleHourChange = (hourRange: any) => {
+        setFormData({ ...formData, hourRange });
+    };
 
     const onGoToStepTwo = () => {
-        setStep_one(!step_one)
-        setStep_two(!step_two)
+        setStep_one(false);
+        setStep_two(true);
     };
 
     const onGoToStepThree = () => {
-        setStep_two(!step_two)
-        setStep_three(!step_three)
-        // setStep_one(!step_one)
+        setStep_two(false);
+        setStep_three(true);
     };
 
+    const sendEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.preventDefault(); // Prevent the default form submission behavior
+
+        console.log('Send button clicked');
+
+        const formToSend = document.createElement('form');
+
+        // Add formDetails directly to the form
+        Object.keys(formDetails).forEach((key) => {
+            const inputField = document.createElement('input');
+            inputField.type = 'hidden';
+            inputField.name = key;
+            inputField.value = typeof formDetails[key] === 'object' ? JSON.stringify(formDetails[key]) : formDetails[key];
+            formToSend.appendChild(inputField);
+        });
+
+        // Add selected hour range to the form
+        const hourRangeField = document.createElement('input');
+        hourRangeField.type = 'hidden';
+        hourRangeField.name = 'hourRange';
+        hourRangeField.value = formDetails.hourRange;
+        formToSend.appendChild(hourRangeField);
+
+        // Now you can use the formToSend element in your email sending logic
+
+        try {
+            const response = await emailjs.sendForm(
+                email_credentials.sevice_key,
+                email_credentials.template_key,
+                formToSend, // Use the dummy form as the 3rd parameter
+                {
+                    publicKey: email_credentials.email_key,
+                }
+            );
+            console.log('Email sent successfully:', response);
+            onGoToStepThree(); // Proceed to step three after sending email
+        } catch (error) {
+            console.error('Error sending email:', error);
+        }
+    };
+
+
+
+
+
+
     const onHandleCancel = () => {
-        handleCloseModal()
+        handleCloseModal();
     };
 
     return (
@@ -127,6 +183,24 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                                         <TableCell></TableCell>
                                     </TableRow>
                                     <TableRow>
+                                        <TableCell>
+                                            <strong>Service additionels</strong>
+                                        </TableCell>
+                                        <TableCell>
+                                            {formDetails.service}
+                                            <hr />
+                                            <ul>
+                                                {Object.keys(formDetails.additionalServices).map((serviceKey) => (
+                                                    <li key={serviceKey}>
+                                                        {serviceKey}: {formDetails.additionalServices[serviceKey].info}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </TableCell>
+                                        <TableCell></TableCell>
+                                    </TableRow>
+
+                                    <TableRow>
                                         <TableCell colSpan={4}>
                                             <strong>Total Estimé</strong>
                                             <br />
@@ -154,29 +228,40 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                             </Button>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 10 }}>
-                            <Button variant="contained" onClick={handleCloseModal} style={{ marginRight: 10 }}>
+                            <Button variant="contained" onClick={onHandleCancel} style={{ marginRight: 10 }}>
                                 Close
                             </Button>
                         </div>
                     </>
                 )}
 
-
                 {step_two && (
                     <>
-                        <EcoservRendezVousDatePicker />
+
+                        <EcoservRendezVousDatePicker handleDateChange={handleDateChange} handleHourChange={handleHourChange} />
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
-                            <Button style={{ marginRight: 10 }} variant="contained" color="primary" onClick={onGoToStepThree}>
+                            <Button
+                                style={{ marginRight: 10 }}
+                                variant="contained"
+                                color="primary"
+                                onClick={sendEmail}
+                            >
                                 Send
                             </Button>
-                            <Button variant="contained" onClick={onHandleCancel}>
+
+
+                            <Button
+                                variant="contained"
+                                onClick={onHandleCancel}
+                            >
                                 Cancel
                             </Button>
                         </div>
+
                     </>
-                )}  {step_three && (<>
-                    <EcoservConfirmEstimation />
-                </>)}
+                )}
+
+                {step_three && <EcoservConfirmEstimation />}
             </div>
         </Modal>
     );

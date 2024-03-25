@@ -3,15 +3,29 @@ import dayjs from 'dayjs';
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TextField, MenuItem } from '@mui/material';
 
-export const EcoservRendezVousDatePicker = () => {
-    const [selectedHour, setSelectedHour] = useState('');
+interface Props {
+    handleDateChange: (date: any) => void;
+    handleHourChange: (hourRange: any) => void;
+}
 
-    const handleHourChange = (event: any) => {
-        setSelectedHour(event.target.value);
+export const EcoservRendezVousDatePicker: React.FC<Props> = ({ handleDateChange, handleHourChange }: Props) => {
+    const [selectedHour, setSelectedHour] = useState<string>('');
+    const [selectedDate, setSelectedDate] = useState<Date | null>(dayjs(Date.now()).toDate());
+
+    const onSelectedDateChange = (date: any) => {
+        if (date) {
+            setSelectedDate(date);
+            handleDateChange(dayjs(date).format('YYYY-MM-DD'));
+        }
+    };
+
+    const onHourChange = (event: any) => {
+        const { value } = event.target;
+        setSelectedHour(value as string);
+        handleHourChange(value as string);
     };
 
     return (
@@ -23,7 +37,11 @@ export const EcoservRendezVousDatePicker = () => {
                 ]}
             >
                 <DemoItem label="Choisis un jour pour votre rendez-vous">
-                    <MobileDatePicker disablePast={true} defaultValue={dayjs(Date.now())} />
+                    <MobileDatePicker
+                        disablePast
+                        value={selectedDate}
+                        onChange={onSelectedDateChange}
+                    />
                 </DemoItem>
             </DemoContainer>
 
@@ -32,7 +50,7 @@ export const EcoservRendezVousDatePicker = () => {
                 select
                 label="Select Hour Range"
                 value={selectedHour}
-                onChange={handleHourChange}
+                onChange={onHourChange}
                 fullWidth
                 style={{ marginTop: 20 }}
             >
@@ -42,4 +60,4 @@ export const EcoservRendezVousDatePicker = () => {
             </TextField>
         </LocalizationProvider>
     );
-}
+};
