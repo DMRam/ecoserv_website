@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import dayjs from 'dayjs';
+import dayjs from 'dayjs'; // Import dayjs library
 import { DemoContainer, DemoItem } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -7,22 +7,23 @@ import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TextField, MenuItem } from '@mui/material';
 
 interface Props {
-    handleDateChange: (date: any) => void;
-    handleHourChange: (hourRange: any) => void;
+    handleDateChange: (date: string) => void; // Change type to string
+    handleHourChange: (hourRange: string) => void; // Change type to string
 }
 
 export const EcoservRendezVousDatePicker: React.FC<Props> = ({ handleDateChange, handleHourChange }: Props) => {
     const [selectedHour, setSelectedHour] = useState<string>('');
-    const [selectedDate, setSelectedDate] = useState<Date | null>(dayjs(Date.now()).toDate());
+    const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(dayjs());
 
-    const onSelectedDateChange = (date: any) => {
+    const onSelectedDateChange = (date: dayjs.Dayjs | null) => {
         if (date) {
             setSelectedDate(date);
-            handleDateChange(dayjs(date).format('YYYY-MM-DD'));
+            const formattedDate = date.format('YYYY-MM-DD'); // Format date using dayjs
+            handleDateChange(formattedDate);
         }
     };
 
-    const onHourChange = (event: any) => {
+    const onHourChange = (event: React.ChangeEvent<{ value: unknown }>) => {
         const { value } = event.target;
         setSelectedHour(value as string);
         handleHourChange(value as string);

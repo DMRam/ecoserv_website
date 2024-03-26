@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Grid, Typography, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 import { EcoservSummaryEstimation } from '../../business/summary/EcoservSummaryEstimation';
 import { EcoservEstimationFormInterface } from '../../interfaces/EcoservEstimation';
 import { Checkbox, FormControlLabel } from '@mui/material';
-import { Title } from '@mui/icons-material';
 
 export const EcoservEstimationForm = () => {
     const [showModal, setShowModal] = useState(false);
@@ -12,16 +11,7 @@ export const EcoservEstimationForm = () => {
         windowCleaning: { selected: false, info: 'Service de nettoyage de fenêtres' },
         deepCleaning: { selected: false, info: 'Service de nettoyage en profondeur' },
         another: { selected: false, info: 'Service de nettoyage additionel' },
-
     });
-
-    const handleServiceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, checked } = event.target;
-        setAdditionalServices({
-            ...additionalServices,
-            [name]: { ...additionalServices[name], selected: checked },
-        });
-    };
 
     const [formData, setFormData] = useState<EcoservEstimationFormInterface>({
         name: '',
@@ -31,6 +21,8 @@ export const EcoservEstimationForm = () => {
         bathrooms: '',
         service: '',
         date: new Date().toISOString().split('T')[0],
+        date_appointment: '',
+        hourRange: "",
         additionalServices
     });
     const [formErrors, setFormErrors] = useState<any>({
@@ -44,6 +36,25 @@ export const EcoservEstimationForm = () => {
 
     });
 
+    const handleAdditionalService = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, checked } = event.target;
+        setAdditionalServices((prevServices: { [x: string]: any; }) => ({
+            ...prevServices,
+            [name]: { ...prevServices[name], selected: checked },
+        }));
+        setFormData((prevFormData: EcoservEstimationFormInterface) => ({
+            ...prevFormData,
+            additionalServices: {
+                ...prevFormData.additionalServices,
+                [name]: { ...prevFormData.additionalServices[name], selected: checked },
+            },
+        }));
+    };
+
+    useEffect(() => {
+        console.log('Updated additional services:', formData.additionalServices);
+    }, [additionalServices]);
+
     const handleInputChange = (event: { target: { name: any; value: any; }; }) => {
         const { name, value } = event.target;
         setFormData({ ...formData, [name]: value });
@@ -55,6 +66,8 @@ export const EcoservEstimationForm = () => {
             setShowModal(true);
             // Perform calculation and set the result state here
         }
+
+        console.log('handleShowModal', formData.additionalServices);
     };
 
     const handleCloseModal = () => {
@@ -73,6 +86,8 @@ export const EcoservEstimationForm = () => {
             bathrooms: '',
             service: '',
             date: '',
+            date_appointment: '',
+            hourRange: '',
             additionalServices: {}
         };
 
@@ -132,6 +147,8 @@ export const EcoservEstimationForm = () => {
             bathrooms: '',
             service: '',
             date: new Date().toISOString().split('T')[0],
+            date_appointment: '',
+            hourRange: '',
             additionalServices: {
                 carpetCleaning: { selected: false, info: 'Service de nettoyage de tapis' },
                 windowCleaning: { selected: false, info: 'Service de nettoyage de fenêtres' },
@@ -301,7 +318,7 @@ export const EcoservEstimationForm = () => {
                             {Object.keys(additionalServices).map((serviceKey) => (
                                 <Grid item xs={12} sm={6} key={serviceKey}>
                                     <FormControlLabel
-                                        control={<Checkbox checked={additionalServices[serviceKey].selected} onChange={handleServiceChange} name={serviceKey} />}
+                                        control={<Checkbox checked={additionalServices[serviceKey].selected} onChange={handleAdditionalService} name={serviceKey} />}
                                         label={additionalServices[serviceKey].info}
                                     />
                                 </Grid>

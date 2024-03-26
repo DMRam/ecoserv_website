@@ -6,6 +6,8 @@ export interface EcoservEstimationFormInterface {
     bathrooms: string;
     service: string;
     date: string;
+    date_appointment: string, // Initialize with empty string
+    hourRange: string;
     additionalServices: {
         [key: string]: {
             selected: boolean;

@@ -16,16 +16,11 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
     const [step_one, setStep_one] = useState(true);
     const [step_two, setStep_two] = useState(false);
     const [step_three, setStep_three] = useState(false);
-    const [formData, setFormData] = useState({
-        date: '', // Initialize with empty string
-        hourRange: '', // Initialize with empty string or appropriate default value
-    });
+    const [selectedDate, setSelectedDate] = useState<string>('');
+    const [selectedHour, setSelectedHour] = useState<string>('');
+    const [message, setMessage] = useState<string>('')
 
-    const [] = useState({
-
-    })
     const calculationResult = () => {
-        // Calculate your result here based on formDetails or other data
         const result = "";
         return result;
     };
@@ -37,6 +32,7 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
         onHandleCancel();
     };
 
+    // This is triggered when last step is done
     useEffect(() => {
         let timer: NodeJS.Timeout | undefined;
 
@@ -49,12 +45,12 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
         return () => clearTimeout(timer); // Cleanup the timer on component unmount or re-render
     }, [step_three]); // Reset the timer whenever step_three changes
 
-    const handleDateChange = (date: { format: (arg0: string) => any; }) => {
-        setFormData({ ...formData, date: date.format('YYYY-MM-DD') });
+    const handleDateChange = (date_appointment: any) => {
+        setSelectedDate(date_appointment);
     };
 
     const handleHourChange = (hourRange: any) => {
-        setFormData({ ...formData, hourRange });
+        setSelectedHour(hourRange);
     };
 
     const onGoToStepTwo = () => {
@@ -67,8 +63,25 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
         setStep_three(true);
     };
 
+    const onAddMessageForm = (message: any) => {
+
+        setMessage(message)
+    }
+
     const sendEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault(); // Prevent the default form submission behavior
+
+        // Special submitting for additional services
+        // Define the selectedServices object with an index signature for string-based indexing
+        const selectedServices: {
+            [key: string]: string;
+        } = {
+            carpetCleaning: formDetails.additionalServices.carpetCleaning.selected ? 'Yes' : 'No',
+            windowCleaning: formDetails.additionalServices.windowCleaning.selected ? 'Yes' : 'No',
+            deepCleaning: formDetails.additionalServices.deepCleaning.selected ? 'Yes' : 'No',
+            another: formDetails.additionalServices.another.selected ? 'Yes' : 'No',
+        };
+
 
         console.log('Send button clicked');
 
@@ -83,12 +96,35 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
             formToSend.appendChild(inputField);
         });
 
+        // Add selected services to the form
+        Object.keys(selectedServices).forEach((key) => {
+            const inputField = document.createElement('input');
+            inputField.type = 'hidden';
+            inputField.name = `selectedServices[${key}]`;
+            inputField.value = selectedServices[key];
+            formToSend.appendChild(inputField);
+        });
+
+        // Add message to the form
+        const messageField = document.createElement('input');
+        messageField.type = 'hidden';
+        messageField.name = 'message';
+        messageField.value = message;
+        formToSend.appendChild(messageField);
+
         // Add selected hour range to the form
         const hourRangeField = document.createElement('input');
         hourRangeField.type = 'hidden';
         hourRangeField.name = 'hourRange';
-        hourRangeField.value = formDetails.hourRange;
+        hourRangeField.value = selectedHour;
         formToSend.appendChild(hourRangeField);
+
+        // Add selected date of appointment to the form
+        const dateAppointmentField = document.createElement('input');
+        dateAppointmentField.type = 'hidden';
+        dateAppointmentField.name = 'date_appointment';
+        dateAppointmentField.value = selectedDate; // Assuming selectedDate is the date of appointment
+        formToSend.appendChild(dateAppointmentField);
 
         // Now you can use the formToSend element in your email sending logic
 
@@ -101,17 +137,19 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                     publicKey: email_credentials.email_key,
                 }
             );
+            // Log the form details before sending the email
+            console.log('Form details to be sent:');
+            formToSend.querySelectorAll('input').forEach((input) => {
+                console.log(input.name + ':', input.value);
+            });
+
             console.log('Email sent successfully:', response);
+            setMessage('')
             onGoToStepThree(); // Proceed to step three after sending email
         } catch (error) {
             console.error('Error sending email:', error);
         }
     };
-
-
-
-
-
 
     const onHandleCancel = () => {
         handleCloseModal();
@@ -221,6 +259,8 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                             rows={2}
                             placeholder="Enter your message"
                             style={{ marginTop: 20 }}
+                            value={message} // Bind the value of the TextField to the 'message' state
+                            onChange={(e) => onAddMessageForm(e.target.value)} // Call onAddMessageForm when the value changes
                         />
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
                             <Button variant="contained" color="primary" onClick={onGoToStepTwo}>
@@ -238,7 +278,13 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                 {step_two && (
                     <>
 
+
+
                         <EcoservRendezVousDatePicker handleDateChange={handleDateChange} handleHourChange={handleHourChange} />
+
+
+
+
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
                             <Button
                                 style={{ marginRight: 10 }}
