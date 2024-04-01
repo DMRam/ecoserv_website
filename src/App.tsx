@@ -7,6 +7,7 @@ import { EcoserviceDetails } from './business/services/services_details/Ecoservi
 import { EcoservHome } from './business/landing/EcoservHome';
 import { Provider } from 'react-redux';
 import store from './store';
+import { EcoservAdmin } from './business/admin/EcoservAdmin';
 
 export const App = () => {
   return (
@@ -16,6 +17,7 @@ export const App = () => {
         <Routes>
           <Route path='/' element={<EcoservHome />} />
           <Route path="/image-details/:id" element={<EcoserviceDetails />} />
+          <Route path="/admin" element={<EcoservAdmin />} />
         </Routes>
         <EcoservFooter />
       </BrowserRouter>
