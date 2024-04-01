@@ -12,6 +12,7 @@ export const EcoservAdmin: React.FC = () => {
     const [daysAWeek, setDaysAWeek] = useState<number>(0)
     const [basePrice, setBasePrice] = useState<number>(0);
     const [finalPrice, setFinalPrice] = useState<number>(0); // Add finalPrice state variable
+    const [months, setMonths] = useState<number>(0);
 
 
 
@@ -19,15 +20,15 @@ export const EcoservAdmin: React.FC = () => {
 
     const onCalculate = () => {
 
-        let months = 0
+
         if (contractType.includes("1")) {
-            months = 1
+            setMonths(1)
         } else if (contractType.includes("2")) {
-            months = 2
+            setMonths(2)
         } else if (contractType.includes("3")) {
-            months = 3
+            setMonths(3)
         } else {
-            months = 0
+            setMonths(0)
         }
 
         console.log(months + " #########")
@@ -186,7 +187,9 @@ export const EcoservAdmin: React.FC = () => {
                 <div style={{ textAlign: 'center', marginTop: '20px' }}>
                     <Typography variant="h5" gutterBottom>Calculated Prices</Typography>
                     {/* <Typography variant="body1">Base Price: ${basePrice.toFixed(2)}</Typography> */}
-                    <Typography variant="body1">Final Price: ${finalPrice.toFixed(2)}</Typography>
+                    <Typography variant="body1">Final day: ${finalPrice.toFixed(2)}</Typography>
+                    <Typography variant="body1">Final month: ${(finalPrice * daysAWeek * 4).toFixed(2)}</Typography>
+                    <Typography variant="body1">Final Contract: ${(finalPrice * daysAWeek * 4 * months).toFixed(2)}</Typography>
                     {/* Additional styling for final price */}
                     <div style={{ marginTop: '10px', backgroundColor: '#f0f0f0', padding: '10px' }}>
                         <Typography variant="h6" gutterBottom>Final Price Details</Typography>
