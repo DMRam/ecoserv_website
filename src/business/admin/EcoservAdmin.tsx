@@ -32,7 +32,6 @@ export const EcoservAdmin: React.FC = () => {
         }
 
         console.log(months + " #########")
-
         const finalCalculatedCommercialPrice = calculateCommercialFinalPrice(clientType, daysAWeek, months, squareFeet, effort, location)
         console.log("----------->>>>>> " + calculateCommercialFinalPrice(clientType, daysAWeek, months, squareFeet, effort, location))
 
@@ -74,7 +73,7 @@ export const EcoservAdmin: React.FC = () => {
     };
 
     return (
-        <Container maxWidth="sm">
+        <Container style={{marginTop:100}} maxWidth="sm">
             <Typography style={{ textAlign: 'center' }} variant="h4" gutterBottom>Cleaning Pricing Calculator</Typography>
             <form onSubmit={handleSubmit}>
                 <FormControl fullWidth margin="normal">

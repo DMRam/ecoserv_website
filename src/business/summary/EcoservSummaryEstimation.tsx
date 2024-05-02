@@ -5,6 +5,7 @@ import { EcoservRendezVousDatePicker } from '../../components/date_picker/Ecoser
 import { EcoservConfirmEstimation } from './EcoservConfirmEstimation';
 import emailjs from '@emailjs/browser';
 import { email_credentials } from '../../key/EmailJsKey';
+import { usePriceCalculations } from '../../hooks/usePriceCalculations';
 
 interface Props {
     showModal: boolean;
@@ -19,11 +20,57 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
     const [selectedDate, setSelectedDate] = useState<string>('');
     const [selectedHour, setSelectedHour] = useState<string>('');
     const [message, setMessage] = useState<string>('')
+    const [price, setPrice] = useState<number>()
+
+    const { calculateCommercialFinalPrice } = usePriceCalculations()
 
     const calculationResult = () => {
-        const result = "";
-        return result;
+        // Calculate additional services fees
+        const additionalServices = formDetails.additionalServices;
+        let additionalServicesFee = Object.values(additionalServices)
+            .filter(service => service.selected)
+            .reduce((totalFee, service) => {
+                if (service.info) {
+                    switch (service.info) {
+                        case 'Service de nettoyage de tapis':
+                            return totalFee + 30;
+                        case 'Service de nettoyage de fenêtres':
+                            return totalFee + 40;
+                        case 'Service de nettoyage en profondeur':
+                        case 'Service de nettoyage additionnel':
+                            return totalFee + 40;
+                        default:
+                            return totalFee;
+                    }
+                }
+                return totalFee;
+            }, 0);
+
+        // Calculate final price with additional services fee
+        const finalCalculatedCommercialPrice = calculateCommercialFinalPrice(
+            formDetails.service,
+            1,
+            1,
+            Number(formDetails.area) * 1.15, // Add additional services fee
+            'Very Hard',
+            'Very Far'
+        );
+
+        console.log(additionalServicesFee + " MMMMMMMMMMM")
+
+        console.log("----------->>>>>> " + finalCalculatedCommercialPrice);
+        setPrice(finalCalculatedCommercialPrice + additionalServicesFee);
+        return finalCalculatedCommercialPrice;
     };
+
+
+
+
+
+    console.log(formDetails.additionalServices[0] + " jsdlkjlkjdlkdjskljslksdjlk")
+    //Commercial
+    console.log(price)
+    console.log(formDetails.service + " <====")
 
     const resetSteps = () => {
         setStep_one(true);
@@ -31,6 +78,11 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
         setStep_three(false);
         onHandleCancel();
     };
+
+    useEffect(() => {
+        calculationResult()
+    }, [showModal])
+
 
     // This is triggered when last step is done
     useEffect(() => {
@@ -155,13 +207,15 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
         handleCloseModal();
     };
 
+    console.log(formDetails.additionalServices.info + " *********")
+
     return (
         <Modal style={{ marginTop: 40 }} open={showModal} onClose={handleCloseModal}>
             <div style={{ width: '90%', maxWidth: 800, margin: 'auto', backgroundColor: 'white', padding: 20, borderRadius: 5, maxHeight: '80vh', overflowY: 'auto' }}>
                 {step_one && (
                     <>
                         <Typography variant="h6">Estimation </Typography>
-                        <Typography variant="body1">{calculationResult()}</Typography>
+                        <Typography variant="body1">{ }</Typography>
 
                         <TableContainer component={Paper} style={{ marginTop: 20 }}>
                             <Table>
@@ -195,26 +249,44 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                                         <TableCell>{formDetails.bathrooms}</TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
-                                    <TableRow>
-                                        <TableCell><strong>Chambres</strong></TableCell>
-                                        <TableCell>{formDetails.bedrooms}</TableCell>
-                                        <TableCell></TableCell>
-                                    </TableRow>
+                                    {
+                                        formDetails.service.includes('Residential') ? (
+                                            <TableRow>
+                                                <TableCell><strong>Chambres</strong></TableCell>
+                                                <TableCell>{formDetails.bedrooms}</TableCell>
+                                                <TableCell></TableCell>
+                                            </TableRow>
+                                        ) : <TableRow>
+                                            <TableCell><strong>Pied Carre</strong></TableCell>
+                                            <TableCell>{formDetails.area}</TableCell>
+                                            <TableCell></TableCell>
+                                        </TableRow>
+                                    }
+
+
+
                                     <TableRow>
                                         <TableCell><strong>Service</strong></TableCell>
-                                        <TableCell>{formDetails.service}
-                                            <hr />
+                                        <TableCell>
+
                                             <TableRow>
                                                 {/* <TableCell> */}
-                                                <strong>Service inclus</strong>
+                                                <strong>Inclus dans {formDetails.service}</strong>
                                                 <ul>
-                                                    <li>Service x</li>
-                                                    <li>Service y</li>
-                                                    <li>Service z</li>
-                                                    <li>Service x</li>
-                                                    <li>Service y</li>
-                                                    <li>Service z</li>
+                                                    <li>
+                                                        Service basique
+                                                    </li>
+                                                    <li>
+                                                        Service basique
+                                                    </li>
+                                                    <li>
+                                                        Service basique
+                                                    </li>
+                                                    <li>
+                                                        Service basique
+                                                    </li>
                                                 </ul>
+
                                                 {/* </TableCell> */}
                                             </TableRow>
                                         </TableCell>
@@ -225,14 +297,18 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                                             <strong>Service additionels</strong>
                                         </TableCell>
                                         <TableCell>
-                                            {formDetails.service}
-                                            <hr />
+
                                             <ul>
-                                                {Object.keys(formDetails.additionalServices).map((serviceKey) => (
-                                                    <li key={serviceKey}>
-                                                        {serviceKey}: {formDetails.additionalServices[serviceKey].info}
-                                                    </li>
-                                                ))}
+                                                {Object.entries(formDetails.additionalServices)
+                                                    .filter(([_, service]) => service.selected) // Filter only selected services
+                                                    .map(([serviceName, service]) => (
+                                                        <li key={serviceName}>
+
+                                                            {service.info}
+
+                                                        </li>
+                                                    ))}
+
                                             </ul>
                                         </TableCell>
                                         <TableCell></TableCell>
@@ -242,6 +318,8 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                                         <TableCell colSpan={4}>
                                             <strong>Total Estimé</strong>
                                             <br />
+                                            <Typography variant="body1">${price?.toFixed(2)}</Typography>
+                                            <hr />
                                             <small style={{ color: 'red' }}>Tous les prix doivent être vérifiés auprès de nos opérateurs. Ceci est une estimation approximative.</small>
                                         </TableCell>
                                     </TableRow>

@@ -17,7 +17,7 @@ export const App = () => {
         <Routes>
           <Route path='/' element={<EcoservHome />} />
           <Route path="/image-details/:id" element={<EcoserviceDetails />} />
-          <Route path="/admin" element={<EcoservAdmin />} />
+          <Route path="/" element={<EcoservAdmin />} />
         </Routes>
         <EcoservFooter />
       </BrowserRouter>

@@ -51,23 +51,26 @@ export const EcoservNavbar = ({ logoSrc }: Props) => {
                 <Navbar.Collapse id="navbarNav" className="justify-content-end">
                     <Nav>
                         <Nav.Link href="#" className="nav-link">
-                            Services
+                            {languageSelected === "French" ? "Services" : languageSelected === "Spanish" ? "Servicios" : "Services"}
                         </Nav.Link>
-                        <Nav.Link href="/admin" className="nav-link">
-                            Estimation
+                        <Nav.Link href="/" className="nav-link">
+                            {languageSelected === "French" ? "Estimation" : languageSelected === "Spanish" ? "Estimación" : "Estimation"}
                         </Nav.Link>
                         <Nav.Link href="#" className="nav-link">
-                            Nous joindre
+                            {languageSelected === "French" ? "Nous joindre" : languageSelected === "Spanish" ? "Contacto" : "Contact"}
                         </Nav.Link>
                         <NavDropdown title={<FiGlobe className="language-icon" />} id="basic-nav-dropdown">
                             <NavDropdown.Item onClick={onChangeLanguages} eventKey="French" data-language="French" active={languageSelected === 'French'}>
-                                French
+
+                                {languageSelected === "French" ? "Français" : languageSelected === "Spanish" ? "Francés" : "French"}
                             </NavDropdown.Item>
                             <NavDropdown.Item onClick={onChangeLanguages} eventKey="English" data-language="English" active={languageSelected === 'English'}>
-                                English
+
+                                {languageSelected === "French" ? "Anglais" : languageSelected === "Spanish" ? "Inglés" : "English"}
                             </NavDropdown.Item>
                             <NavDropdown.Item onClick={onChangeLanguages} eventKey="Spanish" data-language="Spanish" active={languageSelected === 'Spanish'}>
-                                Spanish
+
+                                {languageSelected === "French" ? "Espagnol" : languageSelected === "Spanish" ? "Español" : "Spanish"}
                             </NavDropdown.Item>
                         </NavDropdown>
                     </Nav>
