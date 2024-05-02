@@ -12,6 +12,27 @@ export const EcoservNavbar = ({ logoSrc }: Props) => {
     const [isSticky, setIsSticky] = useState(false);
     const { languageSelected, onChangeLanguage } = useLanguage();
 
+    const navbarHeight = 90; // Adjust this value based on your actual navbar height
+
+    const scrollToServices = () => {
+        const servicesSection = document.getElementById('services');
+        if (servicesSection) {
+            const offsetTop = servicesSection.offsetTop - navbarHeight;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        }
+    };
+
+    const scrollToEstimation = () => {
+        const servicesSection = document.getElementById('estimation');
+        if (servicesSection) {
+            const offsetTop = servicesSection.offsetTop - navbarHeight;
+            window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+        }
+    };
+
+    // estimation
+
+
     useEffect(() => {
         const handleScroll = () => {
             const offset = window.scrollY;
@@ -39,7 +60,7 @@ export const EcoservNavbar = ({ logoSrc }: Props) => {
     return (
         <Navbar expand="lg" variant="dark" className={isSticky ? 'ecoserv-navbar sticky' : 'ecoserv-navbar'} bg="dark">
             <Container>
-                <Navbar.Brand href="#">
+                <Navbar.Brand href="/">
                     <img
                         src={logoSrc}
                         height="30"
@@ -50,10 +71,10 @@ export const EcoservNavbar = ({ logoSrc }: Props) => {
                 <Navbar.Toggle aria-controls="navbarNav" className="custom-toggler" />
                 <Navbar.Collapse id="navbarNav" className="justify-content-end">
                     <Nav>
-                        <Nav.Link href="#" className="nav-link">
+                        <Nav.Link onClick={scrollToServices} href="#services" className="nav-link">
                             {languageSelected === "French" ? "Services" : languageSelected === "Spanish" ? "Servicios" : "Services"}
                         </Nav.Link>
-                        <Nav.Link href="/" className="nav-link">
+                        <Nav.Link onClick={scrollToEstimation} href="#estimation" className="nav-link">
                             {languageSelected === "French" ? "Estimation" : languageSelected === "Spanish" ? "Estimación" : "Estimation"}
                         </Nav.Link>
                         <Nav.Link href="#" className="nav-link">

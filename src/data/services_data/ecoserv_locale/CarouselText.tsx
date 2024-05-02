@@ -37,5 +37,21 @@ export const carouselItems = [
             English: 'Impeccable spaces for thriving businesses: our services for offices and businesses.'
         },
         imageUrl: 'https://fastmaidservice.com/wp-content/uploads/2022/12/No-Need-to-Buy-Expensive-Cleaning-Supplies.png'
+    },
+    {
+        title: {
+            French: 'Lavage haute pression',
+            Spanish: 'Lavado de alta presión',
+            English: 'High pressure washing'
+        },
+        description: {
+            French: 'Pression maximale pour une propreté totale : des locaux impeccables, des affaires qui cartonnent',
+            Spanish: 'Lavado de alta presión: Espacios impecables para negocios prósperos y ambientes que inspiran confianza!',
+            English: 'High-pressure washing for spaces that shine and businesses that thrive! Trust our expertise for impeccable results.'
+        },
+        imageUrl: 'https://xtremecleancostarica.com/wp-content/uploads/2020/10/lavadoapresion-scaled.jpg'
     }
 ];
+
+
+// 

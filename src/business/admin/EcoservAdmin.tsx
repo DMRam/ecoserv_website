@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Typography, FormControl, InputLabel, Select, MenuItem, Button, SelectChangeEvent, TextField } from '@mui/material';
 import { usePriceCalculations } from '../../hooks/usePriceCalculations';
 
-export const EcoservAdmin: React.FC = () => {
+export const EcoservAdmin = () => {
     const [size, setSize] = useState<string>('');
     const [effort, setEffort] = useState<string>('');
     const [location, setLocation] = useState<string>('');
@@ -73,7 +73,7 @@ export const EcoservAdmin: React.FC = () => {
     };
 
     return (
-        <Container style={{marginTop:100}} maxWidth="sm">
+        <Container style={{marginTop:150}} maxWidth="sm">
             <Typography style={{ textAlign: 'center' }} variant="h4" gutterBottom>Cleaning Pricing Calculator</Typography>
             <form onSubmit={handleSubmit}>
                 <FormControl fullWidth margin="normal">

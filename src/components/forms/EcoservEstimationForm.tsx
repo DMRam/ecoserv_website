@@ -3,16 +3,39 @@ import { Container, Grid, Typography, TextField, Button, FormControl, InputLabel
 import { EcoservSummaryEstimation } from '../../business/summary/EcoservSummaryEstimation';
 import { EcoservEstimationFormInterface } from '../../interfaces/EcoservEstimation';
 import { Checkbox, FormControlLabel } from '@mui/material';
+import { useLanguage } from '../../hooks/useLanguage';
+import { translations } from '../../data/services_data/ServicesData';
 
 export const EcoservEstimationForm = () => {
-    const [showModal, setShowModal] = useState(false);
+    const { languageSelected } = useLanguage();
+
+    // Initialize the service info based on the selected language
+    const serviceInfoI = translations[languageSelected].carpetCleaning;
+
+    // Initialize the additional services state with translated info
     const [additionalServices, setAdditionalServices] = useState<any>({
-        carpetCleaning: { selected: false, info: 'Service de nettoyage de tapis' },
-        windowCleaning: { selected: false, info: 'Service de nettoyage de fenêtres' },
-        deepCleaning: { selected: false, info: 'Service de nettoyage en profondeur' },
-        another: { selected: false, info: 'Service de nettoyage additionel' },
+        carpetCleaning: { selected: false, info: serviceInfoI },
+        windowCleaning: { selected: false, info: translations[languageSelected].windowCleaning },
+        deepCleaning: { selected: false, info: translations[languageSelected].deepCleaning },
+        another: { selected: false, info: translations[languageSelected].another },
     });
 
+    // useEffect to update translations and additionalServices when languageSelected changes
+    useEffect(() => {
+        const updatedServiceInfoI = translations[languageSelected].carpetCleaning;
+
+        setAdditionalServices((prevServices: { carpetCleaning: any; windowCleaning: any; deepCleaning: any; another: any; }) => ({
+            ...prevServices,
+            carpetCleaning: { ...prevServices.carpetCleaning, info: updatedServiceInfoI },
+            windowCleaning: { ...prevServices.windowCleaning, info: translations[languageSelected].windowCleaning },
+            deepCleaning: { ...prevServices.deepCleaning, info: translations[languageSelected].deepCleaning },
+            another: { ...prevServices.another, info: translations[languageSelected].another },
+        }));
+    }, [languageSelected]);
+
+
+
+    const [showModal, setShowModal] = useState(false);
     const [formData, setFormData] = useState<EcoservEstimationFormInterface>({
         name: '',
         email: '',
@@ -188,7 +211,7 @@ export const EcoservEstimationForm = () => {
         <div style={{ marginTop: 60 }}>
             <Container maxWidth="md" className="estimation-form-container">
                 <Typography style={{ textAlign: 'center' }} variant="h4" gutterBottom>
-                    Estimation
+                    {languageSelected != 'Spanish' ? 'Estimation' : "Estimación"}
                 </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
@@ -220,76 +243,6 @@ export const EcoservEstimationForm = () => {
                             helperText={formErrors.email}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="area"
-                            name="area"
-                            label="Combien pied carre (approximativement)"
-                            variant="outlined"
-                            fullWidth
-                            type="number"
-                            inputProps={{ min: 0 }}
-                            placeholder="Entre votre nombre"
-                            value={formData.area}
-                            onChange={handleInputChange}
-                            error={!!formErrors.area}
-                            helperText={formErrors.area}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="bedrooms"
-                            name="bedrooms"
-                            label="Nombre de chambres"
-                            variant="outlined"
-                            fullWidth
-                            type="number"
-                            inputProps={{ min: 0 }}
-                            placeholder="Entre votre nombre"
-                            value={formData.bedrooms}
-                            onChange={handleInputChange}
-                            error={!!formErrors.bedrooms}
-                            helperText={formErrors.bedrooms}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="bathrooms"
-                            name="bathrooms"
-                            label="Nombre de sales de bain"
-                            variant="outlined"
-                            fullWidth
-                            type="number"
-                            inputProps={{ min: 0 }}
-                            placeholder="Nombre de sales de bain"
-                            value={formData
-                                .bathrooms}
-                            onChange={handleInputChange}
-                            error={!!formErrors.bathrooms}
-                            helperText={formErrors.bathrooms}
-                        />
-                    </Grid>
-                    <Grid item xs={12} sm={6}>
-                        <TextField
-                            id="date"
-                            name="date"
-                            label="Date prevue pour le service"
-                            variant="outlined"
-                            fullWidth
-                            type="date"
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            inputProps={{
-                                min: todayDate,
-                                max: '9999-12-31',
-                            }}
-                            value={formData.date}
-                            onChange={handleInputChange}
-                            error={!!formErrors.date}
-                            helperText={formErrors.date}
-                        />
-                    </Grid>
                     <Grid item xs={12}>
                         <FormControl variant="outlined" fullWidth>
                             <InputLabel id="service-label">Service</InputLabel>
@@ -300,7 +253,6 @@ export const EcoservEstimationForm = () => {
                                 value={formData.service}
                                 onChange={handleInputChange}
                                 error={!!formErrors.service}
-                            // helperText={formErrors.service}
                             >
                                 <MenuItem value="">Select Service</MenuItem>
                                 <MenuItem value="Nettoyage Résidentiel">Nettoyage Résidentiel</MenuItem>
@@ -312,19 +264,108 @@ export const EcoservEstimationForm = () => {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item xs={12}>
-                        <Typography variant="h6">Services additionels</Typography>
-                        <Grid container spacing={1}>
-                            {Object.keys(additionalServices).map((serviceKey) => (
-                                <Grid item xs={12} sm={6} key={serviceKey}>
-                                    <FormControlLabel
-                                        control={<Checkbox checked={additionalServices[serviceKey].selected} onChange={handleAdditionalService} name={serviceKey} />}
-                                        label={additionalServices[serviceKey].info}
+                    {
+                        formData.service === 'Nettoyage Commercial' && (
+
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    id="area"
+                                    name="area"
+                                    label="Combien pied carre (approximativement)"
+                                    variant="outlined"
+                                    fullWidth
+                                    type="number"
+                                    inputProps={{ min: 0 }}
+                                    placeholder="Entre votre nombre"
+                                    value={formData.area}
+                                    onChange={handleInputChange}
+                                    error={!!formErrors.area}
+                                    helperText={formErrors.area}
+                                />
+                            </Grid>)
+
+
+                    }
+                    {
+                        formData.service === 'Nettoyage Résidentiel' &&
+                        (
+                            <>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        id="bedrooms"
+                                        name="bedrooms"
+                                        label="Nombre de chambres"
+                                        variant="outlined"
+                                        fullWidth
+                                        type="number"
+                                        inputProps={{ min: 0 }}
+                                        placeholder="Entre votre nombre"
+                                        value={formData.bedrooms}
+                                        onChange={handleInputChange}
+                                        error={!!formErrors.bedrooms}
+                                        helperText={formErrors.bedrooms}
                                     />
                                 </Grid>
-                            ))}
-                        </Grid>
-                    </Grid>
+                                <Grid item xs={12} sm={6}>
+                                    <TextField
+                                        id="bathrooms"
+                                        name="bathrooms"
+                                        label="Nombre de sales de bain"
+                                        variant="outlined"
+                                        fullWidth
+                                        type="number"
+                                        inputProps={{ min: 0 }}
+                                        placeholder="Nombre de sales de bain"
+                                        value={formData
+                                            .bathrooms}
+                                        onChange={handleInputChange}
+                                        error={!!formErrors.bathrooms}
+                                        helperText={formErrors.bathrooms}
+                                    />
+                                </Grid></>)
+                    }
+
+                    {formData.service != '' && (
+                        <Grid item xs={12} sm={6}>
+                            <TextField
+                                id="date"
+                                name="date"
+                                label="Date prevue pour le service"
+                                variant="outlined"
+                                fullWidth
+                                type="date"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                                inputProps={{
+                                    min: todayDate,
+                                    max: '9999-12-31',
+                                }}
+                                value={formData.date}
+                                onChange={handleInputChange}
+                                error={!!formErrors.date}
+                                helperText={formErrors.date}
+                            />
+                        </Grid>)}
+                    {
+                        formData.service != '' && (
+                            <Grid item xs={12}>
+                                <Typography variant="h6">Services additionels</Typography>
+                                <Grid container spacing={1}>
+                                    {Object.keys(additionalServices).map((serviceKey) => (
+                                        <Grid item xs={12} sm={6} key={serviceKey}>
+                                            <FormControlLabel
+                                                control={<Checkbox checked={additionalServices[serviceKey].selected} onChange={handleAdditionalService} name={serviceKey} />}
+                                                label={additionalServices[serviceKey].info}
+                                            />
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </Grid>
+
+                        )
+                    }
+
                     <Grid item xs={12}>
                         <Button onClick={handleShowModal} variant="contained" color="primary" fullWidth>
                             Submit

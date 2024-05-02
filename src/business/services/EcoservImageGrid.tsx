@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../hooks/useLanguage';
 import './EcoservImageGrid.css';
 import { EcoserviceDetails } from './services_details/EcoserviceDetails';
 
-export const EcoservImageGrid = ({ images }: any) => {
-    const [selectedImage, setSelectedImage] = useState<any>(null); // State to manage selected image
-    const navigate = useNavigate(); // Get the navigate function from react-router-dom
+interface ImageProps {
+    id: string;
+    img: string;
+    title: string;
+    titleEN: string;
+    titleES: string;
+    author: string;
+}
 
-    const handleClick = (e: any, id: string) => {
+export const EcoservImageGrid = ({ images }: { images: ImageProps[] }) => {
+    const [selectedImage, setSelectedImage] = useState<ImageProps | null>(null); // State to manage selected image
+    const navigate = useNavigate(); // Get the navigate function from react-router-dom
+    const { languageSelected } = useLanguage();
+
+    const handleClick = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: string) => {
         e.preventDefault(); // Prevent default anchor tag behavior
 
         // Scroll to the top of the page
         window.scrollTo({ top: 0, behavior: 'smooth' });
 
         // Find the selected image based on id
-        const image = images.find((img: any) => img.id === id);
+        const image = images.find((item) => item.id === id);
         if (image) {
             setSelectedImage(image); // Set the selected image
         }
@@ -29,26 +40,30 @@ export const EcoservImageGrid = ({ images }: any) => {
     };
 
     return (
-        <>
+        <div>
             {!selectedImage && (
                 <div className="image-grid">
-                    {images.map((image: { id: any; img?: string; title: string; author: string; }, index: number) => (
+                    {images.map((item, index) => (
                         <div className="image-link" key={index}>
-                            {image.img && (
-                                <a href={image.img || '#'} onClick={(e) => handleClick(e, image.id)}>
+                            {item.img && (
+                                <a href={item.img || '#'} onClick={(e) => handleClick(e, item.id)}>
                                     <img
-                                        src={image.img}
-                                        alt={image.title}
-                                        title={image.title}
+                                        src={item.img}
+                                        alt={item.title}
+                                        title={item.title}
                                         className="grid-image"
                                         style={{ height: '100%' }}
                                     />
                                     <div className="image-info">
-                                        <span className="image-title">{image.title}</span>
-                                        <span className="image-author">{image.author}</span>
+                                        <span className="image-title">
+                                            {languageSelected === "French" ? item.title : languageSelected === "Spanish" ? item.titleES : item.titleEN}
+                                        </span>
+                                        <span className="image-author">{item.author}</span>
                                     </div>
                                     <div className="image-overlay">
-                                        <button onClick={test} className="hover-button">Voir les détails</button>
+                                        <button onClick={test} className="hover-button">
+                                            {languageSelected === "French" ? "Voir les détails" : languageSelected === "Spanish" ? "Ver detalles" : "See details"}
+                                        </button>
                                     </div>
                                 </a>
                             )}
@@ -61,6 +76,6 @@ export const EcoservImageGrid = ({ images }: any) => {
             {selectedImage && (
                 <EcoserviceDetails image={selectedImage} onClose={handleCloseDetails} />
             )}
-        </>
+        </div>
     );
 };
