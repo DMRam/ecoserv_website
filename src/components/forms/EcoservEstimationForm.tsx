@@ -127,22 +127,29 @@ export const EcoservEstimationForm = () => {
         }
 
         // Validate area
-        if (formData.area.trim() === '' || isNaN(Number(formData.area))) {
-            errors.area = 'La superficie doit être un nombre valide';
-            valid = false;
+        if (formData.service.includes('Commercial')) {
+            if (formData.area.trim() === '' || isNaN(Number(formData.area))) {
+                errors.area = 'La superficie doit être un nombre valide';
+                valid = false;
+            }
         }
 
         // Validate bedrooms
-        if (formData.bedrooms.trim() === '' || isNaN(Number(formData.bedrooms))) {
-            errors.bedrooms = 'Le nombre de chambres doit être un nombre valide';
-            valid = false;
+        if (formData.service.includes('Résidentiel')) {
+            if (formData.bedrooms.trim() === '' || isNaN(Number(formData.bedrooms))) {
+                errors.bedrooms = 'Le nombre de chambres doit être un nombre valide';
+                valid = false;
+            }
         }
 
         // Validate bathrooms
-        if (formData.bathrooms.trim() === '' || isNaN(Number(formData.bathrooms))) {
-            errors.bathrooms = 'Le nombre de salles de bain doit être un nombre valide';
-            valid = false;
+        if (formData.service.includes('Résidentiel')) {
+            if (formData.bathrooms.trim() === '' || isNaN(Number(formData.bathrooms))) {
+                errors.bathrooms = 'Le nombre de salles de bain doit être un nombre valide';
+                valid = false;
+            }
         }
+
 
         // Validate service
         if (formData.service.trim() === '') {

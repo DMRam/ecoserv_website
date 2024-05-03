@@ -55,22 +55,9 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
             'Very Hard',
             'Very Far'
         );
-
-        console.log(additionalServicesFee + " MMMMMMMMMMM")
-
-        console.log("----------->>>>>> " + finalCalculatedCommercialPrice);
         setPrice(finalCalculatedCommercialPrice + additionalServicesFee);
         return finalCalculatedCommercialPrice;
     };
-
-
-
-
-
-    console.log(formDetails.additionalServices[0] + " jsdlkjlkjdlkdjskljslksdjlk")
-    //Commercial
-    console.log(price)
-    console.log(formDetails.service + " <====")
 
     const resetSteps = () => {
         setStep_one(true);

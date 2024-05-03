@@ -2,9 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./index";
 
 const language: string = ''
+const modalContactForm = false
 
 const initialState = {
-    language: 'French'
+    language: 'French',
+    modalContactForm
 };
 
 const sliceMenu = createSlice({
@@ -14,10 +16,13 @@ const sliceMenu = createSlice({
         sliceOnChangeLanguage(state, action) {
             state.language = action.payload
         },
+        sliceToggleModal(state) {
+            state.modalContactForm = !state.modalContactForm
+        },
     },
 });
 
-export const { sliceOnChangeLanguage } =
+export const { sliceOnChangeLanguage, sliceToggleModal } =
     sliceMenu.actions;
 export const selectUI = (state: RootState) => state.ui;
 

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { FiGlobe } from 'react-icons/fi'; // Import icons for language selection
 import { useLanguage } from '../../hooks/useLanguage';
+import { useModal } from '../../hooks/useModal';
 import './EcoservNavbar.css'; // Import CSS file for Navbar styles
 
 interface Props {
@@ -11,6 +12,11 @@ interface Props {
 export const EcoservNavbar = ({ logoSrc }: Props) => {
     const [isSticky, setIsSticky] = useState(false);
     const { languageSelected, onChangeLanguage } = useLanguage();
+    const { switchModal } = useModal()
+
+    const switchModalFromNav = () => {
+        switchModal()
+    }
 
     const navbarHeight = 90; // Adjust this value based on your actual navbar height
 
@@ -77,7 +83,7 @@ export const EcoservNavbar = ({ logoSrc }: Props) => {
                         <Nav.Link onClick={scrollToEstimation} href="#estimation" className="nav-link">
                             {languageSelected === "French" ? "Estimation" : languageSelected === "Spanish" ? "Estimación" : "Estimation"}
                         </Nav.Link>
-                        <Nav.Link href="#" className="nav-link">
+                        <Nav.Link onClick={switchModalFromNav} href="#" className="nav-link">
                             {languageSelected === "French" ? "Nous joindre" : languageSelected === "Spanish" ? "Contacto" : "Contact"}
                         </Nav.Link>
                         <NavDropdown title={<FiGlobe className="language-icon" />} id="basic-nav-dropdown">

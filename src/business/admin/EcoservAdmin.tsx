@@ -9,7 +9,7 @@ export const EcoservAdmin = () => {
     const [clientType, setClientType] = useState<string>('');
     const [contractType, setContractType] = useState<string>('');
     const [squareFeet, setSquareFeet] = useState<number>(0);
-    const [daysAWeek, setDaysAWeek] = useState<number>(0)
+    const [daysAWeek, setDaysAWeek] = useState<number>(1)
     const [basePrice, setBasePrice] = useState<number>(0);
     const [finalPrice, setFinalPrice] = useState<number>(0); // Add finalPrice state variable
     const [months, setMonths] = useState<number>(0);
@@ -73,8 +73,13 @@ export const EcoservAdmin = () => {
     };
 
     return (
-        <Container style={{marginTop:150}} maxWidth="sm">
-            <Typography style={{ textAlign: 'center' }} variant="h4" gutterBottom>Cleaning Pricing Calculator</Typography>
+        <Container style={{ marginTop: 150 }} maxWidth="sm">
+
+            <Typography style={{ textAlign: 'center' }} variant="h4" gutterBottom>Cleaning Pricing Calculator
+                <div>
+                    <Typography color={'red'}>1 Metro cuadrado = 10.7 Pies cuadrados</Typography>
+                    <Typography color={'red'}>1 Metro lineal = 3.2 Pies lineales</Typography>
+                </div></Typography>
             <form onSubmit={handleSubmit}>
                 <FormControl fullWidth margin="normal">
                     <InputLabel id="sizeLabel">Client type</InputLabel>
