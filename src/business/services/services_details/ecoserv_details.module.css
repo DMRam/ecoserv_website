@@ -1,0 +1,75 @@
+.ecoserviceCard {
+  width: 90%;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  transition: transform 0.3s ease-in-out;
+}
+
+.ecoserviceCard:hover {
+  transform: translateY(-5px);
+}
+
+.ecoserviceImage {
+  margin-bottom: 20px;
+}
+
+.imagePreview {
+  width: 100%;
+  max-width: 350px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.imagePreview:hover {
+  transform: scale(1.1);
+}
+
+.ecoserviceDetails {
+  text-align: left;
+}
+
+.descriptionHeading {
+  margin: 20px 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.descriptionText {
+  font-size: 16px;
+  color: #444;
+  line-height: 1.6;
+}
+
+.detailsList {
+  margin-top: 10px;
+  padding-left: 20px;
+}
+
+.detailsList li {
+  font-size: 16px;
+  color: #666;
+}
+
+.buttonSection {
+  margin-top: 20px;
+}
+
+.closeButton {
+  padding: 10px 20px;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.closeButton:hover {
+  background-color: #0056b3;
+}

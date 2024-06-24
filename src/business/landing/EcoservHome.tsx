@@ -16,7 +16,7 @@ export const EcoservHome = () => {
     };
 
     return (
-        <>
+        <div id='home'>
             <EcoservCarousel />
             <div id='services'>
                 <EcoservImageGrid images={itemData} />
@@ -39,6 +39,6 @@ export const EcoservHome = () => {
                     <EcoservContactForm closeOnSubmission={onClose} />
                 </Box>
             </Modal>
-        </>
+        </div>
     );
 };

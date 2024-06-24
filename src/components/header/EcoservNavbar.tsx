@@ -77,7 +77,10 @@ export const EcoservNavbar = ({ logoSrc }: Props) => {
                 <Navbar.Toggle aria-controls="navbarNav" className="custom-toggler" />
                 <Navbar.Collapse id="navbarNav" className="justify-content-end">
                     <Nav>
-                        <Nav.Link onClick={scrollToServices} href="#services" className="nav-link">
+                        <Nav.Link href="/" className="nav-link">
+                            Home
+                        </Nav.Link>
+                        <Nav.Link onClick={scrollToServices} href="#home" className="nav-link">
                             {languageSelected === "French" ? "Services" : languageSelected === "Spanish" ? "Servicios" : "Services"}
                         </Nav.Link>
                         <Nav.Link onClick={scrollToEstimation} href="#estimation" className="nav-link">

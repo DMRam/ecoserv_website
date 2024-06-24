@@ -4,32 +4,46 @@ import { EcoservSummaryEstimation } from '../../business/summary/EcoservSummaryE
 import { EcoservEstimationFormInterface } from '../../interfaces/EcoservEstimation';
 import { Checkbox, FormControlLabel } from '@mui/material';
 import { useLanguage } from '../../hooks/useLanguage';
-import { translations } from '../../data/services_data/ServicesData';
+import { estimationFormTranslationText, translationsAdditionalServicesBoxes } from '../../data/services_data/ServicesData';
+
+interface TranslationText {
+    title: string | undefined;
+    nomLabel: string | undefined;
+    emailLabel: string | undefined;
+    serviceLabel: string | undefined;
+    options: { op1: string, op2: string, op3: string, op4: string, op5: string, op6: string }
+};
 
 export const EcoservEstimationForm = () => {
     const { languageSelected } = useLanguage();
 
+    const [translatedText, setTranslatedText] = useState<TranslationText>(
+        {
+            title: '', nomLabel: '', emailLabel: '', serviceLabel: '',
+            options: { op1: '', op2: '', op3: '', op4: '', op5: '', op6: '' }
+        });
+
     // Initialize the service info based on the selected language
-    const serviceInfoI = translations[languageSelected].carpetCleaning;
+    const serviceInfoI = translationsAdditionalServicesBoxes[languageSelected].carpetCleaning;
 
     // Initialize the additional services state with translated info
     const [additionalServices, setAdditionalServices] = useState<any>({
         carpetCleaning: { selected: false, info: serviceInfoI },
-        windowCleaning: { selected: false, info: translations[languageSelected].windowCleaning },
-        deepCleaning: { selected: false, info: translations[languageSelected].deepCleaning },
-        another: { selected: false, info: translations[languageSelected].another },
+        windowCleaning: { selected: false, info: translationsAdditionalServicesBoxes[languageSelected].windowCleaning },
+        deepCleaning: { selected: false, info: translationsAdditionalServicesBoxes[languageSelected].deepCleaning },
+        another: { selected: false, info: translationsAdditionalServicesBoxes[languageSelected].another },
     });
 
     // useEffect to update translations and additionalServices when languageSelected changes
     useEffect(() => {
-        const updatedServiceInfoI = translations[languageSelected].carpetCleaning;
+        const updatedServiceInfoI = translationsAdditionalServicesBoxes[languageSelected].carpetCleaning;
 
         setAdditionalServices((prevServices: { carpetCleaning: any; windowCleaning: any; deepCleaning: any; another: any; }) => ({
             ...prevServices,
             carpetCleaning: { ...prevServices.carpetCleaning, info: updatedServiceInfoI },
-            windowCleaning: { ...prevServices.windowCleaning, info: translations[languageSelected].windowCleaning },
-            deepCleaning: { ...prevServices.deepCleaning, info: translations[languageSelected].deepCleaning },
-            another: { ...prevServices.another, info: translations[languageSelected].another },
+            windowCleaning: { ...prevServices.windowCleaning, info: translationsAdditionalServicesBoxes[languageSelected].windowCleaning },
+            deepCleaning: { ...prevServices.deepCleaning, info: translationsAdditionalServicesBoxes[languageSelected].deepCleaning },
+            another: { ...prevServices.another, info: translationsAdditionalServicesBoxes[languageSelected].another },
         }));
     }, [languageSelected]);
 
@@ -214,21 +228,43 @@ export const EcoservEstimationForm = () => {
 
     };
 
+    const translate = (languageSelected: string) => {
+        let translatedText: TranslationText | undefined = undefined;
+
+        if (languageSelected === 'French') {
+            translatedText = estimationFormTranslationText.find(item => item.hasOwnProperty('french'))?.french;
+        } else if (languageSelected === 'English') {
+            translatedText = estimationFormTranslationText.find(item => item.hasOwnProperty('english'))?.english;
+        } else if (languageSelected === 'Spanish') {
+            translatedText = estimationFormTranslationText.find(item => item.hasOwnProperty('spanish'))?.spanish;
+        }
+
+        if (translatedText !== undefined) {
+            setTranslatedText(translatedText);
+        }
+    }
+
+    useEffect(() => {
+        translate(languageSelected)
+    }, [languageSelected])
+
+
+
     return (
         <div style={{ marginTop: 60 }}>
             <Container maxWidth="md" className="estimation-form-container">
                 <Typography style={{ textAlign: 'center' }} variant="h4" gutterBottom>
-                    {languageSelected != 'Spanish' ? 'Estimation' : "Estimación"}
+                    {translatedText.title}
                 </Typography>
                 <Grid container spacing={2}>
                     <Grid item xs={12} sm={6}>
                         <TextField
                             id="name"
                             name="name"
-                            label="Votre nom"
+                            label={translatedText.nomLabel}
                             variant="outlined"
                             fullWidth
-                            placeholder="Votre nom"
+                            placeholder={translatedText.nomLabel}
                             value={formData.name}
                             onChange={handleInputChange}
                             error={!!formErrors.name}
@@ -240,10 +276,10 @@ export const EcoservEstimationForm = () => {
                         <TextField
                             id="email"
                             name="email"
-                            label="Votre couriel"
+                            label={translatedText.emailLabel}
                             variant="outlined"
                             fullWidth
-                            placeholder="Votre couriel"
+                            placeholder={translatedText.emailLabel}
                             value={formData.email}
                             onChange={handleInputChange}
                             error={!!formErrors.email}
@@ -252,27 +288,29 @@ export const EcoservEstimationForm = () => {
                     </Grid>
                     <Grid item xs={12}>
                         <FormControl variant="outlined" fullWidth>
-                            <InputLabel id="service-label">Service</InputLabel>
+                            <InputLabel id="service-label">{translatedText.serviceLabel}</InputLabel>
                             <Select
                                 id="service"
                                 name="service"
-                                label="Service"
+                                label={translatedText.serviceLabel}
                                 value={formData.service}
                                 onChange={handleInputChange}
                                 error={!!formErrors.service}
                             >
-                                <MenuItem value="">Select Service</MenuItem>
-                                <MenuItem value="Nettoyage Résidentiel">Nettoyage Résidentiel</MenuItem>
-                                <MenuItem value="Nettoyage Commercial">Nettoyage Commercial</MenuItem>
-                                <MenuItem value="Nettoyage Chalet/Airbnb">Nettoyage Chalet/Airbnb</MenuItem>
-                                <MenuItem value="Nettoyage Aprés construction">Nettoyage Aprés construction</MenuItem>
-                                <MenuItem value="Nettoyage Courtier Immobilier">Nettoyage Courtier Immobilier</MenuItem>
-                                <MenuItem value="L'homme à tout faire">L'homme à tout faire</MenuItem>
+
+                                <MenuItem value="">{languageSelected === 'French' ? 'Choisis ' : languageSelected === 'English' ? 'Select' : 'Seleccione'} {translatedText.serviceLabel}</MenuItem>
+                                <MenuItem value="Commercial Commercial Cleaning">{translatedText.options.op1}</MenuItem>
+                                <MenuItem value="High pressure Cleaning">{translatedText.options.op2}</MenuItem>
+                                <MenuItem value="Chalet/Airbnb Cleaning">{translatedText.options.op3}</MenuItem>
+                                <MenuItem value="After Construction Cleaning">{translatedText.options.op4}</MenuItem>
+                                <MenuItem value="Broker Cleaning">{translatedText.options.op5}</MenuItem>
+                                <MenuItem value="Residential Cleaning">{translatedText.options.op6}</MenuItem>
                             </Select>
+
                         </FormControl>
                     </Grid>
                     {
-                        formData.service === 'Nettoyage Commercial' && (
+                        formData.service === translatedText.options.op1 && (
 
                             <Grid item xs={12} sm={6}>
                                 <TextField

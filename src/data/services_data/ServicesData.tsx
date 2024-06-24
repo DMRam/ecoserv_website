@@ -1,3 +1,4 @@
+import { data_details_translations } from "./ecoserv_locale/DataTradcutions";
 
 export const itemData = [
     {
@@ -10,6 +11,9 @@ export const itemData = [
         rows: 4,
         cols: 2,
         featured: true,
+        description_fra: data_details_translations.description_residentiel_fra,
+        description_eng: data_details_translations.description_residentiel_eng,
+        description_esp: data_details_translations.description_residentiel_esp
     },
     {
         id: '2',
@@ -18,6 +22,9 @@ export const itemData = [
         titleEN: 'Commercial',
         titleES: 'Comercial',
         author: '',
+        description_fra: data_details_translations.description_commercial_fra,
+        description_eng: data_details_translations.description_commercial_eng,
+        description_esp: data_details_translations.description_commercial_esp
     },
     {
         id: '3',
@@ -26,6 +33,9 @@ export const itemData = [
         titleEN: 'Chalet/Airbnb',
         titleES: 'Chalet/Airbnb',
         author: '',
+        description_fra: data_details_translations.description_chalet_fra,
+        description_eng: data_details_translations.description_chalet_eng,
+        description_esp: data_details_translations.description_chalet_esp
     },
     {
         id: '4',
@@ -34,6 +44,9 @@ export const itemData = [
         titleEN: 'After Construction',
         titleES: 'Después de la construcción',
         author: '',
+        description_fra: data_details_translations.description_AC_fra,
+        description_eng: data_details_translations.description_AC_eng,
+        description_esp: data_details_translations.description_AC_esp
     },
     {
         id: '5',
@@ -42,6 +55,9 @@ export const itemData = [
         titleEN: 'Broker',
         titleES: 'Corredor inmobiliario',
         author: '',
+        description_fra: data_details_translations.description_broker_fra,
+        description_eng: data_details_translations.description_broker_eng,
+        description_esp: data_details_translations.description_broker_esp
     },
     {
         id: '6',
@@ -50,10 +66,15 @@ export const itemData = [
         titleEN: 'High pressure washing',
         titleES: 'Lavado de alta presión',
         author: '',
+        description_fra: data_details_translations.description_HP_fra,
+        description_eng: data_details_translations.description_HP_eng,
+        description_esp: data_details_translations.description_HP_esp
     },
 ]
 
-export const translations: any = {
+// ===============================================
+
+export const translationsAdditionalServicesBoxes: any = {
     French: {
         carpetCleaning: 'Service de nettoyage de tapis',
         windowCleaning: 'Service de nettoyage de fenêtres',
@@ -73,3 +94,50 @@ export const translations: any = {
         another: 'Additional Cleaning Service',
     },
 };
+
+export const estimationFormTranslationText = [
+    {
+        french: {
+            title: 'Estimation',
+            nomLabel: 'Votre nom',
+            emailLabel: 'Votre Couriel',
+            serviceLabel: 'Service',
+            options: {
+                op1: 'Nettoyage Commercial',
+                op2: "Lavage d'haute pression",
+                op3: 'Nettoyage Chalet/Airbnb',
+                op4: 'Nettoyage Aprés construction',
+                op5: 'Nettoyage Courtier Immobilier',
+                op6: 'Nettoyage Résidentiel'
+            }
+        },
+        english: {
+            title: 'Estimation',
+            nomLabel: 'Your name',
+            emailLabel: 'Your email',
+            serviceLabel: 'Service',
+            options: {
+                op1: 'Commercial Commercial Cleaning',
+                op2: "High pressure Cleaning",
+                op3: 'Chalet/Airbnb Cleaning',
+                op4: 'After Construction Cleaning',
+                op5: 'Broker Cleaning',
+                op6: 'Residential Cleaning'
+            }
+        },
+        spanish: {
+            title: 'Estimación',
+            nomLabel: 'Tu nombre',
+            emailLabel: 'Tu correo',
+            serviceLabel: 'Servicio',
+            options: {
+                op1: 'Aseo Comercial',
+                op2: "Lavado de alta presión",
+                op3: 'Aseo Chalet/Airbnb',
+                op4: 'Aseo después de la Construcción',
+                op5: 'Aseo Corredor inmobiliario',
+                op6: 'Aseo Residencial'
+            }
+        }
+    }
+]
