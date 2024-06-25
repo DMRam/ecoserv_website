@@ -9,7 +9,10 @@ export const EcoserviceDetails = ({ image, onClose }: any) => {
   const { languageSelected } = useLanguage();
 
   const getDescription = () => {
+
+    console.log(selectedImage.title + " #########selectedImage.title")
     if (languageSelected === 'French') {
+      // This is evaluated as Résidentiel for the three languages and filtered by languaje selected
       if (selectedImage.title.includes('Résidentiel')) {
         return data_details_translations.description_residentiel_fra;
       } else if (selectedImage.title.includes('Commercial')) {
@@ -26,31 +29,31 @@ export const EcoserviceDetails = ({ image, onClose }: any) => {
         return data_details_translations.description_HP_fra;
       }
     } else if (languageSelected === 'Spanish') {
-      if (selectedImage.title.includes('Residencial')) {
+      if (selectedImage.title.includes('Résidentiel')) {
         return data_details_translations.description_residentiel_esp;
-      } else if (selectedImage.title.includes('Comercial')) {
+      } else if (selectedImage.title.includes('Commercial')) {
         return data_details_translations.description_commercial_esp;
       } else if (selectedImage.title.includes('Chalet')) {
         return data_details_translations.description_chalet_esp;
-      } else if (selectedImage.title.includes('Después')) {
+      } else if (selectedImage.title.includes('Aprés')) {
         return data_details_translations.description_AC_esp;
-      } else if (selectedImage.title.includes('Corredor')) {
+      } else if (selectedImage.title.includes('Courtier')) {
         return data_details_translations.description_broker_esp;
-      } else if (selectedImage.title.includes('Lavado')) {
+      } else if (selectedImage.title.includes('Lavage')) {
         return data_details_translations.description_HP_esp;
       }
     } else {
-      if (selectedImage.title.includes('Residential')) {
+      if (selectedImage.title.includes('Résidentiel')) {
         return data_details_translations.description_residentiel_eng;
       } else if (selectedImage.title.includes('Commercial')) {
         return data_details_translations.description_commercial_eng;
       } else if (selectedImage.title.includes('Chalet')) {
         return data_details_translations.description_chalet_eng;
-      } else if (selectedImage.title.includes('After')) {
+      } else if (selectedImage.title.includes('Aprés')) {
         return data_details_translations.description_AC_eng;
-      } else if (selectedImage.title.includes('Broker')) {
+      } else if (selectedImage.title.includes('Courtier')) {
         return data_details_translations.description_broker_eng;
-      } else if (selectedImage.title.includes('High')) {
+      } else if (selectedImage.title.includes('Lavage')) {
         return data_details_translations.description_HP_eng;
       }
     }
@@ -62,19 +65,52 @@ export const EcoserviceDetails = ({ image, onClose }: any) => {
 
   const getDescriptionList = () => {
     let descriptionList;
-    if (languageSelected === 'French' && selectedImage.title.includes('Résidentiel')) {
-      descriptionList = data_details_translations.description_residentiel_list_fra;
-    } else if (languageSelected === 'Spanish') {
-      descriptionList = data_details_translations.description_residentiel_list_esp;
-    } else {
-      descriptionList = data_details_translations.description_residentiel_list_eng;
+    console.log(languageSelected + " <------")
+    console.log(selectedImage.title + " <------")
+
+    if (languageSelected === 'French') {
+      if (selectedImage.title.includes('Résidentiel')) {
+        descriptionList = data_details_translations.description_residentiel_list_fra;
+      } else if (selectedImage.title.includes('Commercial')) {
+        descriptionList = data_details_translations.description_commercial_list_fra;
+      } else if (selectedImage.title.includes('Chalet')) {
+        descriptionList = data_details_translations.description_chalet_list_fra
+      } else if (selectedImage.title.includes('Aprés')) {
+        descriptionList = data_details_translations.description_AC_list_fra
+      } else if (selectedImage.title.includes('Courtier')) {
+        descriptionList = data_details_translations.description_broker_list_fra
+      }
     }
 
-
-
+    if (languageSelected === 'English') {
+      if (selectedImage.title.includes('Résidentiel')) {
+        descriptionList = data_details_translations.description_residentiel_list_eng;
+      } else if (selectedImage.title.includes('Commercial')) {
+        descriptionList = data_details_translations.description_commercial_list_eng
+      } else if (selectedImage.title.includes('Chalet')) {
+        descriptionList = data_details_translations.description_chalet_list_eng
+      } else if (selectedImage.title.includes('Aprés')) {
+        descriptionList = data_details_translations.description_AC_list_eng
+      } else if (selectedImage.title.includes('Courtier')) {
+        descriptionList = data_details_translations.description_broker_list_eng
+      }
+    }
+    if (languageSelected === 'Spanish') {
+      if (selectedImage.title.includes('Résidentiel')) {
+        descriptionList = data_details_translations.description_residentiel_list_esp;
+      } else if (selectedImage.title.includes('Commercial')) {
+        descriptionList = data_details_translations.description_commercial_list_esp;
+      } else if (selectedImage.title.includes('Chalet')) {
+        descriptionList = data_details_translations.description_chalet_list_esp
+      } else if (selectedImage.title.includes('Aprés')) {
+        descriptionList = data_details_translations.description_AC_list_esp
+      } else if (selectedImage.title.includes('Courtier')) {
+        descriptionList = data_details_translations.description_broker_list_esp
+      }
+    }
     return (
       <ul>
-        {descriptionList.map((item: string, index: number) => (
+        {descriptionList?.map((item: string, index: number) => (
           <li style={{ margin: 3 }} key={index}>{item}</li>
         ))}
       </ul>

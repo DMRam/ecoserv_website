@@ -248,8 +248,6 @@ export const EcoservEstimationForm = () => {
         translate(languageSelected)
     }, [languageSelected])
 
-
-
     return (
         <div style={{ marginTop: 60 }}>
             <Container maxWidth="md" className="estimation-form-container">
@@ -310,7 +308,9 @@ export const EcoservEstimationForm = () => {
                         </FormControl>
                     </Grid>
                     {
-                        formData.service === translatedText.options.op1 && (
+
+
+                        formData.service === "Commercial Commercial Cleaning" && (
 
                             <Grid item xs={12} sm={6}>
                                 <TextField
@@ -331,6 +331,7 @@ export const EcoservEstimationForm = () => {
 
 
                     }
+                    
                     {
                         formData.service === 'Nettoyage Résidentiel' &&
                         (
@@ -370,7 +371,7 @@ export const EcoservEstimationForm = () => {
                                 </Grid></>)
                     }
 
-                    {formData.service != '' && (
+                    {formData.service !== '' && (
                         <Grid item xs={12} sm={6}>
                             <TextField
                                 id="date"
@@ -393,7 +394,7 @@ export const EcoservEstimationForm = () => {
                             />
                         </Grid>)}
                     {
-                        formData.service != '' && (
+                        formData.service !== '' && (
                             <Grid item xs={12}>
                                 <Typography variant="h6">Services additionels</Typography>
                                 <Grid container spacing={1}>

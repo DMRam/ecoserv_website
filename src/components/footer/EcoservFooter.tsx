@@ -25,7 +25,7 @@ export const EcoservFooter = () => {
                         <ul className="list-inline social-icons">
                             <li className="list-inline-item"><a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className="text-primary"><FontAwesomeIcon icon={faFacebookF} /></a></li>
                             <li className="list-inline-item"><a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer" className="text-danger"><FontAwesomeIcon icon={faInstagram} /></a></li>
-                            <li className="list-inline-item"><a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer" className="text-primary"><FontAwesomeIcon icon={faEnvelope} /></a></li>
+                            <li className="list-inline-item"><a target="_blank" rel="noopener noreferrer" className="text-primary"><FontAwesomeIcon onClick={switchModal} icon={faEnvelope} /></a></li>
 
                         </ul>
                     </Col>

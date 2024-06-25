@@ -6,6 +6,8 @@ import { EcoservConfirmEstimation } from './EcoservConfirmEstimation';
 import emailjs from '@emailjs/browser';
 import { email_credentials } from '../../key/EmailJsKey';
 import { usePriceCalculations } from '../../hooks/usePriceCalculations';
+import { Alert } from '@mui/material';
+
 
 interface Props {
     showModal: boolean;
@@ -20,6 +22,8 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
     const [selectedDate, setSelectedDate] = useState<string>('');
     const [selectedHour, setSelectedHour] = useState<string>('');
     const [message, setMessage] = useState<string>('')
+    const [calculatedPrice, setCalculatedPrice] = useState<string>('')
+
     const [price, setPrice] = useState<number>()
 
     const { calculateCommercialFinalPrice } = usePriceCalculations()
@@ -103,8 +107,8 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
     };
 
     const onAddMessageForm = (message: any) => {
-
         setMessage(message)
+
     }
 
     const sendEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -120,7 +124,6 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
             deepCleaning: formDetails.additionalServices.deepCleaning.selected ? 'Yes' : 'No',
             another: formDetails.additionalServices.another.selected ? 'Yes' : 'No',
         };
-
 
         console.log('Send button clicked');
 
@@ -150,6 +153,13 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
         messageField.name = 'message';
         messageField.value = message;
         formToSend.appendChild(messageField);
+
+        const calculatedPriceField = document.createElement('input');
+        calculatedPriceField.type = 'hidden';
+        calculatedPriceField.name = 'calculatedPrice';
+        calculatedPriceField.value = price !== undefined ? price.toFixed(2).toString() : "No price";
+        formToSend.appendChild(calculatedPriceField);
+
 
         // Add selected hour range to the form
         const hourRangeField = document.createElement('input');
@@ -307,7 +317,8 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                                             <br />
                                             <Typography variant="body1">${price?.toFixed(2)}</Typography>
                                             <hr />
-                                            <small style={{ color: 'red' }}>Tous les prix doivent être vérifiés auprès de nos opérateurs. Ceci est une estimation approximative.</small>
+
+                                            <Alert><small style={{ color: 'red' }}>Tous les prix doivent être vérifiés auprès de nos opérateurs. Ceci est une estimation approximative.</small></Alert>
                                         </TableCell>
                                     </TableRow>
 
