@@ -137,5 +137,65 @@ export const usePriceCalculations = () => {
         return base_price_no_discount - base_price_no_discount * discount_to_calculate_final_price
     }
 
-    return { calculateCommercialFinalPrice };
+    /**
+     * 
+     * INFO TO USE IN CALCULATION: 
+     * {
+     * "name":"",
+     * "email":"",
+     * "area":"",
+     * "bedrooms":"",
+     * "bathrooms":"",
+     * "service":"",
+     * "date":"2024-06-27",
+     * "date_appointment":"",
+     * "hourRange":"",
+     * "additionalServices":{
+     * "carpetCleaning":{"selected":false,"info":"Servicio de limpieza de alfombras"},
+     * "windowCleaning":{"selected":false,"info":"Servicio de limpieza de ventanas"},
+     * "deepCleaning":{"selected":false,"info":"Servicio de limpieza profunda"},
+     * "another":{"selected":false,"info":"Servicio de limpieza adicional"}}}
+     */
+
+    /**
+     * 
+     * 
+     * @param daysAWeek used for admin
+     * @param months used for admin
+     * @param squareFeet 
+     * @param effort used for admin
+     * @param location used for admin
+     * @param rooms 
+     * @param bathrooms
+     */
+    const calculateResidential = (daysAWeek: number, months: number, squareFeet: number, effort: string, location: string, rooms: number, bathrooms: number) => {
+
+        const roomPrice = rooms * 15
+        const bathroomPrice = bathrooms * 10
+        const areaPrice = squareFeet * 0.15
+
+        console.log(roomPrice + " <-------- PRECIO CALCULADO ROOM")
+        console.log(bathroomPrice + " <-------- PRECIO CALCULADO BATHROOM")
+        console.log(areaPrice + " <-------- PRECIO CALCULADO AREA")
+        console.log(roomPrice + bathroomPrice + areaPrice + " <-------- PRECIO CALCULADO")
+
+    }
+
+    const calculateAirBNB = (daysAWeek: number, months: number, squareFeet: number, effort: string, location: string) => {
+
+    }
+
+    const calculateAC = (daysAWeek: number, months: number, squareFeet: number, effort: string, location: string) => {
+
+    }
+
+    const calculateBroker = (daysAWeek: number, months: number, squareFeet: number, effort: string, location: string) => {
+
+    }
+
+    const calculateHP = (daysAWeek: number, months: number, squareFeet: number, effort: string, location: string) => {
+
+    }
+
+    return { calculateCommercialFinalPrice, calculateResidential };
 }

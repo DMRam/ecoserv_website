@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Container, Grid, Typography, TextField, Button } from '@mui/material';
 import { email_credentials } from '../../key/EmailJsKey';
 import emailjs from '@emailjs/browser';
+import { useLanguage } from '../../hooks/useLanguage';
 
 interface Props {
     closeOnSubmission: () => void; // Correct the prop type
@@ -13,6 +14,8 @@ export const EcoservContactForm = ({ closeOnSubmission }: Props) => {
         message: '',
         address: ''
     });
+
+    const { languageSelected } = useLanguage()
 
     const sendEmail = async (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault(); // Prevent the default form submission behavior
@@ -55,13 +58,14 @@ export const EcoservContactForm = ({ closeOnSubmission }: Props) => {
     return (
         <Container maxWidth="sm">
             <Typography variant="h4" align="center" gutterBottom>
-                Contact Us
+                {languageSelected === 'French' ? 'Contactez-nous' : languageSelected === 'English' ? 'Contact Us' : 'Contactenos'}
+
             </Typography>
             <form id="contact-form" onSubmit={handleSubmit}>
                 <TextField
                     id="name"
                     name="name"
-                    label="Your Name"
+                    label={languageSelected === 'French' ? 'Votre prenom' : languageSelected === 'English' ? "Your name" : 'Su nombre'}
                     variant="outlined"
                     fullWidth
                     margin="normal"
@@ -72,7 +76,7 @@ export const EcoservContactForm = ({ closeOnSubmission }: Props) => {
                 <TextField
                     id="email"
                     name="email"
-                    label="Your Email"
+                    label={languageSelected === 'French' ? 'Votre courriel' : languageSelected === 'English' ? "Your email" : 'Su email'}
                     variant="outlined"
                     fullWidth
                     margin="normal"
@@ -83,7 +87,7 @@ export const EcoservContactForm = ({ closeOnSubmission }: Props) => {
                 <TextField
                     id="address"
                     name="address"
-                    label="Your Address"
+                    label={languageSelected === 'French' ? 'Votre adresse' : languageSelected === 'English' ? "Your address" : 'Su dirección'}
                     variant="outlined"
                     fullWidth
                     margin="normal"
@@ -94,7 +98,7 @@ export const EcoservContactForm = ({ closeOnSubmission }: Props) => {
                 <TextField
                     id="message"
                     name="message"
-                    label="Your Message"
+                    label={languageSelected === 'French' ? 'Votre message' : languageSelected === 'English' ? "Your message" : 'Su mensaje'}
                     variant="outlined"
                     multiline
                     rows={4}
@@ -105,7 +109,7 @@ export const EcoservContactForm = ({ closeOnSubmission }: Props) => {
                     required
                 />
                 <Button type="submit" variant="contained" color="primary" fullWidth>
-                    Send Message
+                    {languageSelected === 'English' ? 'Send Message' : languageSelected === 'Spanish' ? 'Enviar mensaje' : 'Envoyer Message'}
                 </Button>
             </form>
         </Container>

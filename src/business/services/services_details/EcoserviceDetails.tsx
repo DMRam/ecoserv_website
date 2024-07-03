@@ -2,6 +2,10 @@ import React from 'react';
 import { data_details_translations } from '../../../data/services_data/ecoserv_locale/DataTradcutions';
 import { useLanguage } from '../../../hooks/useLanguage';
 import styles from './ecoserv_details.module.css'
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import { ListItemText } from '@mui/material';
+import Divider from '@mui/material/Divider';
 
 
 export const EcoserviceDetails = ({ image, onClose }: any) => {
@@ -109,11 +113,18 @@ export const EcoserviceDetails = ({ image, onClose }: any) => {
       }
     }
     return (
-      <ul>
+      <>
         {descriptionList?.map((item: string, index: number) => (
-          <li style={{ margin: 3 }} key={index}>{item}</li>
+          <List sx={{ width: '100%', bgcolor: 'background.paper' }}>
+            <ListItem>
+            
+              <ListItemText secondary={item} />
+              {/* <li style={{ margin: 3 }} key={index}>{item}</li> */}
+            </ListItem>
+          </List>
         ))}
-      </ul>
+      </>
+
     );
   };
 
@@ -124,13 +135,15 @@ export const EcoserviceDetails = ({ image, onClose }: any) => {
       </div>
       <div className={styles.ecoserviceDetails}>
         <h4>{languageSelected === 'French' ? selectedImage.title : languageSelected === 'English' ? selectedImage.titleEN : selectedImage.titleES}</h4>
-        <hr />
+        
         <h5>{languageSelected === "French" ? "Description" : languageSelected === "Spanish" ? "Descripción" : "Description"}</h5>
         <p>{getDescription()}</p>
-        <h5>{languageSelected === "French" ? "Liste des détails" : languageSelected === "Spanish" ? "Lista de detalles" : "Details List"}</h5>
+        <hr />
+        <h6>{languageSelected === "French" ? "Liste des détails" : languageSelected === "Spanish" ? "Lista de detalles" : "Details List"}</h6>
         {getDescriptionList()}
       </div>
       <div className={styles.buttonSection} style={{ textAlign: 'center' }}>
+        
         <button onClick={onClose} className={styles.closeButton}>
           {languageSelected === "French" ? "Fermer les détails" : languageSelected === "Spanish" ? "Cerrar detalles" : "Close Details"}
         </button>

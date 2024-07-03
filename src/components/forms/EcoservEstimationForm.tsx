@@ -248,6 +248,9 @@ export const EcoservEstimationForm = () => {
         translate(languageSelected)
     }, [languageSelected])
 
+
+    console.log(formData.service + " 00000000000")
+
     return (
         <div style={{ marginTop: 60 }}>
             <Container maxWidth="md" className="estimation-form-container">
@@ -309,19 +312,18 @@ export const EcoservEstimationForm = () => {
                     </Grid>
                     {
 
-
-                        formData.service === "Commercial Commercial Cleaning" && (
+                        (formData.service === "Commercial Commercial Cleaning" || formData.service === 'Residential Cleaning') && (
 
                             <Grid item xs={12} sm={6}>
                                 <TextField
                                     id="area"
                                     name="area"
-                                    label="Combien pied carre (approximativement)"
+                                    label={languageSelected === 'French' ? "Combien pied carre (approximativement)" : languageSelected === 'English' ? 'How many square feet (approx)' : 'Cuantos pies cuadrados'}
                                     variant="outlined"
                                     fullWidth
                                     type="number"
-                                    inputProps={{ min: 0 }}
-                                    placeholder="Entre votre nombre"
+                                    inputProps={{ min: 500 }}
+                                    placeholder={languageSelected === 'French' ? "Entre le chiffre" : languageSelected === 'English' ? 'Enter the number' : 'Ingrese el número'}
                                     value={formData.area}
                                     onChange={handleInputChange}
                                     error={!!formErrors.area}
@@ -331,21 +333,21 @@ export const EcoservEstimationForm = () => {
 
 
                     }
-                    
+
                     {
-                        formData.service === 'Nettoyage Résidentiel' &&
+                        formData.service === 'Residential Cleaning' &&
                         (
                             <>
                                 <Grid item xs={12} sm={6}>
                                     <TextField
                                         id="bedrooms"
                                         name="bedrooms"
-                                        label="Nombre de chambres"
+                                        label={languageSelected === 'French' ? "Nombre de chambres" : languageSelected === 'English' ? 'How many rooms' : 'Cantidad de habitaciones'}
                                         variant="outlined"
                                         fullWidth
                                         type="number"
                                         inputProps={{ min: 0 }}
-                                        placeholder="Entre votre nombre"
+                                        placeholder={languageSelected === 'French' ? "Entre le chiffre" : languageSelected === 'English' ? 'Enter the number' : 'Ingrese el número'}
                                         value={formData.bedrooms}
                                         onChange={handleInputChange}
                                         error={!!formErrors.bedrooms}
@@ -356,12 +358,12 @@ export const EcoservEstimationForm = () => {
                                     <TextField
                                         id="bathrooms"
                                         name="bathrooms"
-                                        label="Nombre de sales de bain"
+                                        label={languageSelected === 'French' ? "Nombre de sales de bain" : languageSelected === 'English' ? 'How many bathrooms' : 'Cantidad de baños'}
                                         variant="outlined"
                                         fullWidth
                                         type="number"
                                         inputProps={{ min: 0 }}
-                                        placeholder="Nombre de sales de bain"
+                                        placeholder={languageSelected === 'French' ? "Nombre de sales de bain" : languageSelected === 'English' ? 'How many bathrooms' : 'Cantidad de baños'}
                                         value={formData
                                             .bathrooms}
                                         onChange={handleInputChange}
@@ -376,7 +378,7 @@ export const EcoservEstimationForm = () => {
                             <TextField
                                 id="date"
                                 name="date"
-                                label="Date prevue pour le service"
+                                label={languageSelected === 'French' ? "Date prevue pour le service" : languageSelected === 'English' ? 'Estimated date for service' : 'Fecha estimada para el servicio'}
                                 variant="outlined"
                                 fullWidth
                                 type="date"
@@ -384,7 +386,7 @@ export const EcoservEstimationForm = () => {
                                     shrink: true,
                                 }}
                                 inputProps={{
-                                    min: todayDate,
+                                    min: todayDate + 1,
                                     max: '9999-12-31',
                                 }}
                                 value={formData.date}
@@ -414,7 +416,8 @@ export const EcoservEstimationForm = () => {
 
                     <Grid item xs={12}>
                         <Button onClick={handleShowModal} variant="contained" color="primary" fullWidth>
-                            Submit
+
+                            {languageSelected === 'English' ? 'Submit' : languageSelected === 'Spanish' ? 'Enviar' : 'Envoyer'}
                         </Button>
                     </Grid>
                 </Grid>

@@ -28,7 +28,7 @@ export const itemData = [
     },
     {
         id: '3',
-        img: 'https://thinkdifferentnetwork.com/wp-content/uploads/2019/03/Chalet-style-in-the-interior-of-apartments-and-houses3.jpg',
+        img: 'https://www.ovonetwork.com/blog/wp-content/uploads/2022/06/Screenshot-2022-06-16-11.24.43.png',
         title: 'Chalet/Airbnb',
         titleEN: 'Chalet/Airbnb',
         titleES: 'Chalet/Airbnb',

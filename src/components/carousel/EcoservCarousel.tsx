@@ -9,7 +9,7 @@ export const EcoservCarousel: React.FC = () => {
     const { languageSelected } = useLanguage();
 
     return (
-        <Carousel className="custom-carousel">
+        <Carousel fade className="custom-carousel">
             {carouselItems.map((item: any, index) => (
                 <Carousel.Item key={index}>
                     <img

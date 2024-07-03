@@ -7,6 +7,7 @@ import emailjs from '@emailjs/browser';
 import { email_credentials } from '../../key/EmailJsKey';
 import { usePriceCalculations } from '../../hooks/usePriceCalculations';
 import { Alert } from '@mui/material';
+import { useLanguage } from '../../hooks/useLanguage';
 
 
 interface Props {
@@ -26,9 +27,35 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
 
     const [price, setPrice] = useState<number>()
 
-    const { calculateCommercialFinalPrice } = usePriceCalculations()
+    const { calculateCommercialFinalPrice, calculateResidential } = usePriceCalculations()
+
+    const { languageSelected } = useLanguage()
+    console.log("INFO TO USE IN CALCULATION: " + JSON.stringify(formDetails))
+
+    /**
+     * 
+     * INFO TO USE IN CALCULATION: 
+     * {
+     * "name":"",
+     * "email":"",
+     * "area":"",
+     * "bedrooms":"",
+     * "bathrooms":"",
+     * "service":"",
+     * "date":"2024-06-27",
+     * "date_appointment":"",
+     * "hourRange":"",
+     * "additionalServices":{
+     * "carpetCleaning":{"selected":false,"info":"Servicio de limpieza de alfombras"},
+     * "windowCleaning":{"selected":false,"info":"Servicio de limpieza de ventanas"},
+     * "deepCleaning":{"selected":false,"info":"Servicio de limpieza profunda"},
+     * "another":{"selected":false,"info":"Servicio de limpieza adicional"}}}
+     */
+
 
     const calculationResult = () => {
+        calculateResidential(1, 1, Number(formDetails.area), '', '', Number(formDetails.bedrooms), Number(formDetails.bathrooms))
+
         // Calculate additional services fees
         const additionalServices = formDetails.additionalServices;
         let additionalServicesFee = Object.values(additionalServices)
@@ -204,6 +231,57 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
         handleCloseModal();
     };
 
+    const handleServiceString = () => {
+        if (formDetails.service.includes("Commercial")) {
+            if (languageSelected !== "Spanish") {
+                return "Commercial";
+            } else {
+                return "Comercial";
+            }
+        } else if (formDetails.service.includes("High")) {
+            if (languageSelected === "Spanish") {
+                return "Lavado alta presión";
+            } else if (languageSelected === "French") {
+                return "Lavage haute pression";
+            } else {
+                return "High pressure washing";
+            }
+        } else if (formDetails.service.includes("Chalet")) {
+            if (languageSelected === "Spanish") {
+                return "Limpieza de chalet/Airbnb";
+            } else if (languageSelected === "French") {
+                return "Nettoyage de chalet/Airbnb";
+            } else {
+                return "Chalet/Airbnb cleaning";
+            }
+        } else if (formDetails.service.includes("After")) {
+            if (languageSelected === "Spanish") {
+                return "Limpieza post-construcción";
+            } else if (languageSelected === "French") {
+                return "Nettoyage post-construction";
+            } else {
+                return "Post-construction cleaning";
+            }
+        } else if (formDetails.service.includes("Broker")) {
+            if (languageSelected === "Spanish") {
+                return "Limpieza para corredores inmobiliarios";
+            } else if (languageSelected === "French") {
+                return "Nettoyage pour courtiers immobiliers";
+            } else {
+                return "Cleaning for real estate brokers";
+            }
+        } else if (formDetails.service.includes("Residential")) {
+            if (languageSelected === "Spanish") {
+                return "Limpieza residencial";
+            } else if (languageSelected === "French") {
+                return "Nettoyage résidentiel";
+            } else {
+                return "Residential cleaning";
+            }
+        }
+    };
+
+
     console.log(formDetails.additionalServices.info + " *********")
 
     return (
@@ -211,7 +289,7 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
             <div style={{ width: '90%', maxWidth: 800, margin: 'auto', backgroundColor: 'white', padding: 20, borderRadius: 5, maxHeight: '80vh', overflowY: 'auto' }}>
                 {step_one && (
                     <>
-                        <Typography variant="h6">Estimation </Typography>
+                        <Typography variant="h6">{languageSelected != "Spanish" ? "Estimation" : "Estimación"} {handleServiceString()}</Typography>
                         <Typography variant="body1">{ }</Typography>
 
                         <TableContainer component={Paper} style={{ marginTop: 20 }}>
@@ -219,42 +297,46 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                                 <TableHead>
                                     <TableRow>
                                         <TableCell></TableCell>
-                                        <TableCell>Info</TableCell>
+                                        <TableCell>{languageSelected === "Spanish" ? "Información" : "Information"}</TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
                                 </TableHead>
                                 <TableBody>
                                     <TableRow>
-                                        <TableCell><strong>Nom</strong></TableCell>
+                                        <TableCell><strong>{languageSelected === "French" ? "Votre nom" : languageSelected === "English" ? "Your name" : "Su nombre"}</strong></TableCell>
                                         <TableCell>{formDetails.name}
 
                                         </TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell><strong>Courriel</strong></TableCell>
+                                        <TableCell><strong>{languageSelected === "French" ? "Votre Courriel" : languageSelected === "English" ? "Your email" : "Su email"}</strong></TableCell>
                                         <TableCell>{formDetails.email}</TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
                                     <TableRow>
-                                        <TableCell><strong>Date</strong></TableCell>
+                                        <TableCell><strong>{languageSelected === "French" ? "Date de rendez-vous" : languageSelected === "English" ? "Appointment Date" : "Fecha de su cita"}</strong></TableCell>
                                         <TableCell>{formDetails.date}</TableCell>
                                         <TableCell></TableCell>
                                     </TableRow>
-                                    <TableRow>
-                                        <TableCell><strong>Sales de bain</strong></TableCell>
-                                        <TableCell>{formDetails.bathrooms}</TableCell>
-                                        <TableCell></TableCell>
-                                    </TableRow>
+                                    {formDetails.bathrooms != '' && <>
+                                        <TableRow>
+                                            <TableCell><strong>{languageSelected === "French" ? "Sales de bain" : languageSelected === "English" ? "Bathrooms" : "Baños"}</strong></TableCell>
+                                            <TableCell>{formDetails.bathrooms}</TableCell>
+                                            <TableCell></TableCell>
+                                        </TableRow>
+                                    </>
+                                    }
+
                                     {
                                         formDetails.service.includes('Residential') ? (
                                             <TableRow>
-                                                <TableCell><strong>Chambres</strong></TableCell>
+                                                <TableCell><strong>{languageSelected === "French" ? "Chambres" : languageSelected === "English" ? "Rooms" : "Habitaciones"}</strong></TableCell>
                                                 <TableCell>{formDetails.bedrooms}</TableCell>
                                                 <TableCell></TableCell>
                                             </TableRow>
                                         ) : <TableRow>
-                                            <TableCell><strong>Pied Carre</strong></TableCell>
+                                            <TableCell><strong>{languageSelected === "French" ? "Pied Carre" : languageSelected === "English" ? "Square Feet" : "Pies Cuadrados"}</strong></TableCell>
                                             <TableCell>{formDetails.area}</TableCell>
                                             <TableCell></TableCell>
                                         </TableRow>
@@ -262,13 +344,13 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
 
 
 
-                                    <TableRow>
-                                        <TableCell><strong>Service</strong></TableCell>
-                                        <TableCell>
+                                    {/* <TableRow> */}
+                                    {/* <TableCell><strong>Service</strong></TableCell> */}
+                                    {/* <TableCell> */}
 
-                                            <TableRow>
-                                                {/* <TableCell> */}
-                                                <strong>Inclus dans {formDetails.service}</strong>
+                                    {/* <TableRow> */}
+                                    {/* <TableCell> */}
+                                    {/* <strong>Inclus dans {formDetails.service}</strong>
                                                 <ul>
                                                     <li>
                                                         Service basique
@@ -282,16 +364,16 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
                                                     <li>
                                                         Service basique
                                                     </li>
-                                                </ul>
+                                                </ul> */}
 
-                                                {/* </TableCell> */}
-                                            </TableRow>
-                                        </TableCell>
-                                        <TableCell></TableCell>
-                                    </TableRow>
+                                    {/* </TableCell> */}
+                                    {/* </TableRow> */}
+                                    {/* </TableCell> */}
+                                    {/* <TableCell></TableCell> */}
+                                    {/* </TableRow> */}
                                     <TableRow>
                                         <TableCell>
-                                            <strong>Service additionels</strong>
+                                            <strong>{languageSelected === "French" ? "Service additionels" : languageSelected === "English" ? "Additional Services" : "Servicios Adicionales"}</strong>
                                         </TableCell>
                                         <TableCell>
 
@@ -313,12 +395,25 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
 
                                     <TableRow>
                                         <TableCell colSpan={4}>
-                                            <strong>Total Estimé</strong>
+                                            <strong>
+                                                {languageSelected === "French"
+                                                    ? "Total Estimé"
+                                                    : languageSelected === "English"
+                                                        ? "Total Estimation"
+                                                        : "Total Estimado"}
+                                            </strong>
                                             <br />
                                             <Typography variant="body1">${price?.toFixed(2)}</Typography>
                                             <hr />
-
-                                            <Alert><small style={{ color: 'red' }}>Tous les prix doivent être vérifiés auprès de nos opérateurs. Ceci est une estimation approximative.</small></Alert>
+                                            <Alert>
+                                                <small style={{ color: 'red' }}>
+                                                    {languageSelected === "French"
+                                                        ? "Tous les prix doivent être vérifiés auprès de nos opérateurs. Ceci est une estimation approximative."
+                                                        : languageSelected === "English"
+                                                            ? "All prices must be verified with our operators. This is an approximate estimation."
+                                                            : "Todos los precios deben ser verificados con nuestros operadores. Esto es una estimación aproximada."}
+                                                </small>
+                                            </Alert>
                                         </TableCell>
                                     </TableRow>
 
@@ -328,26 +423,47 @@ export const EcoservSummaryEstimation = ({ showModal, handleCloseModal, formDeta
 
                         <TextField
                             id="message"
-                            label="Message"
+                            label={
+                                languageSelected === "French"
+                                    ? "Message"
+                                    : languageSelected === "English"
+                                        ? "Message"
+                                        : "Mensaje"
+                            }
                             variant="outlined"
                             fullWidth
                             multiline
                             rows={2}
-                            placeholder="Enter your message"
+                            placeholder={
+                                languageSelected === "French"
+                                    ? "Entrez votre message"
+                                    : languageSelected === "English"
+                                        ? "Enter your message"
+                                        : "Ingrese su mensaje"
+                            }
                             style={{ marginTop: 20 }}
                             value={message} // Bind the value of the TextField to the 'message' state
                             onChange={(e) => onAddMessageForm(e.target.value)} // Call onAddMessageForm when the value changes
                         />
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
                             <Button variant="contained" color="primary" onClick={onGoToStepTwo}>
-                                Prendre un rendez-vous
+                                {languageSelected === "French"
+                                    ? "Prendre un rendez-vous"
+                                    : languageSelected === "English"
+                                        ? "Schedule an appointment"
+                                        : "Programar una cita"}
                             </Button>
                         </div>
                         <div style={{ display: 'flex', justifyContent: 'center', marginTop: 10 }}>
                             <Button variant="contained" onClick={onHandleCancel} style={{ marginRight: 10 }}>
-                                Close
+                                {languageSelected === "French"
+                                    ? "Fermer"
+                                    : languageSelected === "English"
+                                        ? "Close"
+                                        : "Cerrar"}
                             </Button>
                         </div>
+
                     </>
                 )}
 

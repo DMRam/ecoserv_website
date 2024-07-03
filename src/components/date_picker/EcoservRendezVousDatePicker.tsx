@@ -5,6 +5,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
 import { TextField, MenuItem } from '@mui/material';
+import { useLanguage } from '../../hooks/useLanguage';
 
 interface Props {
     handleDateChange: (date: string) => void; // Change type to string
@@ -14,6 +15,7 @@ interface Props {
 export const EcoservRendezVousDatePicker: React.FC<Props> = ({ handleDateChange, handleHourChange }: Props) => {
     const [selectedHour, setSelectedHour] = useState<string>('');
     const [selectedDate, setSelectedDate] = useState<dayjs.Dayjs | null>(dayjs());
+    const { languageSelected } = useLanguage()
 
     const onSelectedDateChange = (date: dayjs.Dayjs | null) => {
         if (date) {
@@ -37,7 +39,7 @@ export const EcoservRendezVousDatePicker: React.FC<Props> = ({ handleDateChange,
                     'MobileDatePicker',
                 ]}
             >
-                <DemoItem label="Choisis un jour pour votre rendez-vous">
+                <DemoItem label={languageSelected === 'French' ? "Choisis un jour pour votre rendez-vous" : languageSelected === "English" ? "Select a day for your appointment" : "Seleccione un dia para su cita"}>
                     <MobileDatePicker
                         disablePast
                         value={selectedDate}
@@ -49,7 +51,13 @@ export const EcoservRendezVousDatePicker: React.FC<Props> = ({ handleDateChange,
             {/* Hour Range Selection */}
             <TextField
                 select
-                label="Select Hour Range"
+                label={
+                    languageSelected === "French"
+                        ? "Choisissez votre plage horaire"
+                        : languageSelected === "English"
+                            ? "Select Hour Range"
+                            : "Seleccione rango horario"
+                }
                 value={selectedHour}
                 onChange={onHourChange}
                 fullWidth
@@ -59,6 +67,6 @@ export const EcoservRendezVousDatePicker: React.FC<Props> = ({ handleDateChange,
                 <MenuItem value="1pm-4pm">1 PM - 4 PM</MenuItem>
                 <MenuItem value="5pm-8pm">5 PM - 8 PM</MenuItem>
             </TextField>
-        </LocalizationProvider>
+        </LocalizationProvider >
     );
 };

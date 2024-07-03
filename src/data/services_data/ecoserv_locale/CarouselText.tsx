@@ -23,7 +23,7 @@ export const carouselItems = [
             Spanish: 'Cuidamos de su reputación: limpieza de calidad para hoteles y alojamientos.',
             English: 'We take care of your reputation: quality cleaning for hotels and rentals.'
         },
-        imageUrl: 'https://www.peopleready.com/wp-content/uploads/2021/04/1000x460_office-cleaning-02-1024x471.jpg'
+        imageUrl: 'https://thepinkwand.com/wp-content/uploads/2023/09/airbnb-3399753_1920.jpg'
     },
     {
         title: {
